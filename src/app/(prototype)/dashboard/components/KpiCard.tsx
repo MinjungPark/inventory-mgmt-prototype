@@ -48,9 +48,9 @@ const TONE_STYLES: Record<NonNullable<KpiCardProps["tone"]>, {
         iconColor: "text-white",
     },
     critical: {
-        valueColor: "text-[#d32f2f]",
+        valueColor: "text-[#991b1b]",
         iconBg: "bg-[#fef2f2]",
-        iconColor: "text-[#d32f2f]",
+        iconColor: "text-[#991b1b]",
     },
 };
 
@@ -108,20 +108,20 @@ export default function KpiCard({
                         <TrendingUp
                             size={12}
                             strokeWidth={2.2}
-                            className={tone === "critical" ? "text-[#d32f2f]" : "text-[#388e3c]"}
+                            className={tone === "critical" ? "text-[#991b1b]" : "text-[#15803d]"}
                         />
                     ) : (
                         <TrendingDown
                             size={12}
                             strokeWidth={2.2}
-                            className={tone === "critical" ? "text-[#388e3c]" : "text-[#d32f2f]"}
+                            className={tone === "critical" ? "text-[#15803d]" : "text-[#991b1b]"}
                         />
                     )}
                     <span
                         className={`font-semibold ${
                             (trend.direction === "up") === (tone !== "critical")
-                                ? "text-[#388e3c]"
-                                : "text-[#d32f2f]"
+                                ? "text-[#15803d]"
+                                : "text-[#991b1b]"
                         }`}
                     >
                         {trend.direction === "up" ? "+" : "−"}

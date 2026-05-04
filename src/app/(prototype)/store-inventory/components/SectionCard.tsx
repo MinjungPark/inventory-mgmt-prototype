@@ -38,13 +38,13 @@ export default function SectionCard({
 }: SectionCardProps) {
     const gradient = FLOOR_GRADIENT[section.floor] ?? FLOOR_GRADIENT["1F"];
 
-    // 부족률에 따라 우측 상태 띠 컬러
+    // 부족률에 따라 우측 상태 띠 컬러 — ENERTORK 차분 톤 미러링
     const statusTone =
         shortageRatio >= 0.15
-            ? { color: "text-[#d32f2f]", bg: "bg-[#fef2f2]", border: "border-[#fecaca]", label: "재고 주의" }
+            ? { color: "text-[#991b1b]", bg: "bg-[#fef2f2]", border: "border-[#fecaca]", label: "재고 주의" }
             : shortageRatio >= 0.05
-                ? { color: "text-[#f57c00]", bg: "bg-[#fffbeb]", border: "border-[#fde68a]", label: "일부 부족" }
-                : { color: "text-[#388e3c]", bg: "bg-[#f0fdf4]", border: "border-[#bbf7d0]", label: "정상 운영" };
+                ? { color: "text-[#9a3412]", bg: "bg-[#fff7ed]", border: "border-[#fed7aa]", label: "일부 부족" }
+                : { color: "text-[#15803d]", bg: "bg-[#f0fdf4]", border: "border-[#bbf7d0]", label: "정상 운영" };
 
     return (
         <button

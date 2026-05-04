@@ -14,19 +14,19 @@ import InfoHint from "@/components/ui/InfoHint";
 const SEVERITY_STYLE: Record<AlertSeverity, { bg: string; text: string; border: string; label: string }> = {
     critical: {
         bg: "bg-[#fef2f2]",
-        text: "text-[#d32f2f]",
+        text: "text-[#991b1b]",
         border: "border-[#fecaca]",
         label: "긴급",
     },
     warning: {
-        bg: "bg-[#fffbeb]",
-        text: "text-[#f57c00]",
-        border: "border-[#fde68a]",
+        bg: "bg-[#fff7ed]",
+        text: "text-[#9a3412]",
+        border: "border-[#fed7aa]",
         label: "주의",
     },
     ok: {
         bg: "bg-[#f0fdf4]",
-        text: "text-[#388e3c]",
+        text: "text-[#15803d]",
         border: "border-[#bbf7d0]",
         label: "정상",
     },

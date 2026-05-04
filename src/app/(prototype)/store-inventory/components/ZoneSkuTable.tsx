@@ -17,9 +17,9 @@ interface ZoneSkuTableProps {
 }
 
 const STATUS_BADGE: Record<StockStatus, { bg: string; text: string; border: string; label: string }> = {
-    sufficient: { bg: "bg-[#f0fdf4]", text: "text-[#388e3c]", border: "border-[#bbf7d0]", label: "충분" },
-    warning:    { bg: "bg-[#fffbeb]", text: "text-[#f57c00]", border: "border-[#fde68a]", label: "주의" },
-    shortage:   { bg: "bg-[#fef2f2]", text: "text-[#d32f2f]", border: "border-[#fecaca]", label: "부족" },
+    sufficient: { bg: "bg-[#f0fdf4]", text: "text-[#15803d]", border: "border-[#bbf7d0]", label: "충분" },
+    warning:    { bg: "bg-[#fff7ed]", text: "text-[#9a3412]", border: "border-[#fed7aa]", label: "주의" },
+    shortage:   { bg: "bg-[#fef2f2]", text: "text-[#991b1b]", border: "border-[#fecaca]", label: "부족" },
 };
 
 export default function ZoneSkuTable({ section, skus, statusFilter = "ALL" }: ZoneSkuTableProps) {

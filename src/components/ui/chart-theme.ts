@@ -24,10 +24,11 @@ export const CHART_CATEGORICAL = [
     "#5e92f3", // 라이프스타일
 ] as const;
 
+// ENERTORK Calm 톤 — 형광 회피한 차분한 의미 색상
 export const CHART_SEVERITY = {
-    critical: "#d32f2f",
-    warning: "#f57c00",
-    ok: "#388e3c",
+    critical: "#991b1b",
+    warning: "#9a3412",
+    ok: "#15803d",
 } as const;
 
 // ─── 축 / 그리드 / 폰트 ─────────────────────────────────────────────────────

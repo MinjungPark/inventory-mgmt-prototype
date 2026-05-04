@@ -55,11 +55,14 @@
   --border-strong: #cbd5e1;
   --border-mute: #f1f5f9;
 
-  /* ─── Severity ─── */
-  --sev-critical: #d32f2f;
-  --sev-warning: #f57c00;
-  --sev-ok: #388e3c;
+  /* ─── Severity (ENERTORK Calm 톤 — 형광 회피) ─── */
+  --sev-critical: #991b1b;
+  --sev-warning: #9a3412;
+  --sev-ok: #15803d;
   --sev-info: #0d47a1;
+  --sev-critical-bg: #fef2f2;
+  --sev-warning-bg: #fff7ed;
+  --sev-ok-bg: #f0fdf4;
 
   /* ─── Warn (As-Is 강조용) ─── */
   --warn: #92400e;
