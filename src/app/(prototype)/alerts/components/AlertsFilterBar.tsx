@@ -1,0 +1,162 @@
+/**
+ * @file src/app/(prototype)/alerts/components/AlertsFilterBar.tsx
+ * @description 재고 알림 필터바 — 매장·카테고리·심각도·상태 + 검색.
+ */
+
+"use client";
+
+import { Search } from "lucide-react";
+import type { AlertSeverity, AlertStatus, ProductCategory } from "@/types/inventory";
+import { STORE_SECTIONS } from "@/data/seed";
+import { SEVERITY_LABEL, STATUS_LABEL } from "@/data/seed/alerts-helpers";
+
+interface AlertsFilterBarProps {
+    sectionId: string;
+    onSectionChange: (v: string) => void;
+    category: ProductCategory | "ALL";
+    onCategoryChange: (v: ProductCategory | "ALL") => void;
+    severity: AlertSeverity | "ALL";
+    onSeverityChange: (v: AlertSeverity | "ALL") => void;
+    status: AlertStatus | "ALL";
+    onStatusChange: (v: AlertStatus | "ALL") => void;
+    search: string;
+    onSearchChange: (v: string) => void;
+}
+
+const CATEGORIES: (ProductCategory | "ALL")[] = [
+    "ALL",
+    "의류", "신발", "언더웨어", "잡화", "화장품", "주얼리", "라이프스타일",
+];
+
+const SEVERITIES: (AlertSeverity | "ALL")[] = ["ALL", "critical", "warning", "ok"];
+const STATUSES: (AlertStatus | "ALL")[] = ["ALL", "new", "acknowledged", "resolved"];
+
+const SELECT_BASE =
+    "h-9 pl-3 pr-8 rounded-md border border-[#e2e8f0] bg-white text-[13px] text-[#1a1a1a] hover:border-[#cbd5e1] focus:outline-none focus:border-[#0d47a1] focus:ring-2 focus:ring-[#0d47a1]/15 appearance-none cursor-pointer transition-colors";
+const SELECT_ARROW =
+    "absolute right-2.5 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none text-[10px]";
+
+export default function AlertsFilterBar({
+    sectionId,
+    onSectionChange,
+    category,
+    onCategoryChange,
+    severity,
+    onSeverityChange,
+    status,
+    onStatusChange,
+    search,
+    onSearchChange,
+}: AlertsFilterBarProps) {
+    return (
+        <div className="bg-white border border-[#e2e8f0] rounded-md p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+            <div className="flex flex-wrap items-end gap-3">
+                {/* 매장 섹션 */}
+                <div className="flex flex-col gap-1">
+                    <label className="text-[11px] font-semibold text-[#718096] uppercase tracking-wider">
+                        매장
+                    </label>
+                    <div className="relative">
+                        <select
+                            className={SELECT_BASE}
+                            value={sectionId}
+                            onChange={(e) => onSectionChange(e.target.value)}
+                        >
+                            <option value="ALL">전체 매장</option>
+                            {STORE_SECTIONS.map((s) => (
+                                <option key={s.id} value={s.id}>
+                                    {s.name}
+                                </option>
+                            ))}
+                        </select>
+                        <span className={SELECT_ARROW}>▼</span>
+                    </div>
+                </div>
+
+                {/* 카테고리 */}
+                <div className="flex flex-col gap-1">
+                    <label className="text-[11px] font-semibold text-[#718096] uppercase tracking-wider">
+                        카테고리
+                    </label>
+                    <div className="relative">
+                        <select
+                            className={SELECT_BASE}
+                            value={category}
+                            onChange={(e) => onCategoryChange(e.target.value as ProductCategory | "ALL")}
+                        >
+                            {CATEGORIES.map((c) => (
+                                <option key={c} value={c}>
+                                    {c === "ALL" ? "전체" : c}
+                                </option>
+                            ))}
+                        </select>
+                        <span className={SELECT_ARROW}>▼</span>
+                    </div>
+                </div>
+
+                {/* 심각도 */}
+                <div className="flex flex-col gap-1">
+                    <label className="text-[11px] font-semibold text-[#718096] uppercase tracking-wider">
+                        심각도
+                    </label>
+                    <div className="relative">
+                        <select
+                            className={SELECT_BASE}
+                            value={severity}
+                            onChange={(e) => onSeverityChange(e.target.value as AlertSeverity | "ALL")}
+                        >
+                            {SEVERITIES.map((s) => (
+                                <option key={s} value={s}>
+                                    {s === "ALL" ? "전체" : SEVERITY_LABEL[s]}
+                                </option>
+                            ))}
+                        </select>
+                        <span className={SELECT_ARROW}>▼</span>
+                    </div>
+                </div>
+
+                {/* 상태 */}
+                <div className="flex flex-col gap-1">
+                    <label className="text-[11px] font-semibold text-[#718096] uppercase tracking-wider">
+                        상태
+                    </label>
+                    <div className="relative">
+                        <select
+                            className={SELECT_BASE}
+                            value={status}
+                            onChange={(e) => onStatusChange(e.target.value as AlertStatus | "ALL")}
+                        >
+                            {STATUSES.map((s) => (
+                                <option key={s} value={s}>
+                                    {s === "ALL" ? "전체" : STATUS_LABEL[s]}
+                                </option>
+                            ))}
+                        </select>
+                        <span className={SELECT_ARROW}>▼</span>
+                    </div>
+                </div>
+
+                {/* 검색 */}
+                <div className="flex flex-col gap-1 ml-auto min-w-[240px] flex-1 max-w-[360px]">
+                    <label className="text-[11px] font-semibold text-[#718096] uppercase tracking-wider">
+                        검색
+                    </label>
+                    <div className="relative">
+                        <Search
+                            size={14}
+                            strokeWidth={2}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none"
+                        />
+                        <input
+                            type="text"
+                            placeholder="SKU 또는 품목명 검색"
+                            className="w-full h-9 pl-9 pr-3 rounded-md border border-[#e2e8f0] bg-white text-[13px] text-[#1a1a1a] placeholder:text-[#94a3b8] hover:border-[#cbd5e1] focus:outline-none focus:border-[#0d47a1] focus:ring-2 focus:ring-[#0d47a1]/15 transition-colors"
+                            value={search}
+                            onChange={(e) => onSearchChange(e.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
