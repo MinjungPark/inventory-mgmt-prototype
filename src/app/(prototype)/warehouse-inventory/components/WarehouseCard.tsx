@@ -50,8 +50,8 @@ export default function WarehouseCard({ warehouse, selected, onClick }: Warehous
 
     // 게이지 색상
     const gaugeColor =
-        sevKey === "critical" ? "#991b1b" :
-        sevKey === "warning"  ? "#c2410c" :
+        sevKey === "critical" ? "#b34530" :
+        sevKey === "warning"  ? "#ea7c2e" :
                                 "#0d47a1";
 
     return (
@@ -134,6 +134,25 @@ export default function WarehouseCard({ warehouse, selected, onClick }: Warehous
                             background: gaugeColor,
                         }}
                     />
+                    {/* 임계점 마커 — 70% 보충 / 85% 만재 */}
+                    <div
+                        className="absolute top-0 h-full"
+                        style={{ left: "70%", width: 1, background: "rgba(15,23,42,0.35)" }}
+                    />
+                    <div
+                        className="absolute top-0 h-full"
+                        style={{ left: "85%", width: 1, background: "rgba(15,23,42,0.35)" }}
+                    />
+                </div>
+                {/* 임계점 라벨 */}
+                <div className="relative h-3 mt-0.5 text-[10px] text-[#94a3b8] tabular-nums">
+                    <span className="absolute left-0">0</span>
+                    <span style={{ position: "absolute", left: "70%", transform: "translateX(-50%)" }}>
+                        70<span className="text-[#c2410c] font-semibold ml-0.5">·보충</span>
+                    </span>
+                    <span style={{ position: "absolute", left: "85%", transform: "translateX(-50%)" }}>
+                        85<span className="text-[#991b1b] font-semibold ml-0.5">·만재</span>
+                    </span>
                 </div>
                 <div className="mt-3 flex items-center justify-between">
                     <SeverityBadge

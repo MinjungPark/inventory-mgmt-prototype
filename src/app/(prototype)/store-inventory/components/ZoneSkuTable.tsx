@@ -9,6 +9,7 @@ import type { Sku, StoreSection } from "@/types/inventory";
 import { getStockStatus, getZoneIdForSku } from "@/data/seed/store-helpers";
 import type { StockStatus } from "@/data/seed/store-helpers";
 import SeverityBadge, { type Severity } from "@/components/ui/SeverityBadge";
+import RatioGauge from "@/components/ui/RatioGauge";
 
 interface ZoneSkuTableProps {
     section: StoreSection;
@@ -56,8 +57,7 @@ export default function ZoneSkuTable({ section, skus, statusFilter = "ALL" }: Zo
                         <th className="px-3 py-2.5 w-12 text-center">존</th>
                         <th className="px-3 py-2.5">SKU</th>
                         <th className="px-3 py-2.5">품목명</th>
-                        <th className="px-3 py-2.5 text-right">매장 재고</th>
-                        <th className="px-3 py-2.5 text-right">기준</th>
+                        <th className="px-3 py-2.5 text-right">매장 재고 / 기준</th>
                         <th className="px-3 py-2.5 text-center">상태</th>
                         <th className="px-3 py-2.5 text-right">단가</th>
                     </tr>
@@ -78,11 +78,18 @@ export default function ZoneSkuTable({ section, skus, statusFilter = "ALL" }: Zo
                                 <td className="px-3 py-2.5 text-[12px] font-medium text-[#1a1a1a]">
                                     {sku.name}
                                 </td>
-                                <td className="px-3 py-2.5 text-[12px] text-right font-semibold text-[#1a1a1a] tabular-nums">
-                                    {sku.storeQuantity.toLocaleString()}
-                                </td>
-                                <td className="px-3 py-2.5 text-[12px] text-right text-[#94a3b8] tabular-nums">
-                                    {sku.threshold}
+                                <td className="px-3 py-2.5 text-right">
+                                    <div className="inline-flex items-center gap-2 justify-end">
+                                        <span className="text-[12px] tabular-nums">
+                                            <span className="font-semibold text-[#1a1a1a]">{sku.storeQuantity.toLocaleString()}</span>
+                                            <span className="text-[#94a3b8]"> / {sku.threshold}</span>
+                                        </span>
+                                        <RatioGauge
+                                            ratio={sku.threshold > 0 ? sku.storeQuantity / sku.threshold : 1}
+                                            width={72}
+                                            height={6}
+                                        />
+                                    </div>
                                 </td>
                                 <td className="px-3 py-2.5 text-center">
                                     <SeverityBadge

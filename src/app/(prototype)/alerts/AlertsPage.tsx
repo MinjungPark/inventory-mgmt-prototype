@@ -19,6 +19,7 @@ import { Activity, Bell, CheckCircle2 } from "lucide-react";
 
 import PageHeader from "@/components/common/PageHeader";
 import ChartCard from "@/app/(prototype)/dashboard/components/ChartCard";
+import SeverityRulesCard from "@/components/ui/SeverityRulesCard";
 import { STOCK_ALERTS } from "@/data/seed";
 import { filterAlerts } from "@/data/seed/alerts-helpers";
 import type { AlertSeverity, AlertStatus, ProductCategory, StockAlert } from "@/types/inventory";
@@ -27,6 +28,27 @@ import AlertsKpiBar from "./components/AlertsKpiBar";
 import AlertTrendChart from "./components/AlertTrendChart";
 import AlertsFilterBar from "./components/AlertsFilterBar";
 import AlertsTable from "./components/AlertsTable";
+
+const STOCK_RULES = [
+    {
+        severity: "critical" as const,
+        label: "긴급",
+        threshold: "≤ 30%",
+        description: "결품 임박 — 즉시 발주가 필요한 SKU.",
+    },
+    {
+        severity: "warning" as const,
+        label: "주의",
+        threshold: "30 ~ 70%",
+        description: "곧 부족 예상 — 발주 계획 수립이 필요합니다.",
+    },
+    {
+        severity: "ok" as const,
+        label: "정상",
+        threshold: "> 70%",
+        description: "여유 운영 — 즉시 조치는 필요하지 않습니다.",
+    },
+];
 
 export default function AlertsPage() {
     // 시드 알림을 로컬 상태로 가져와 이후 인터랙션(일괄 확인) 반영.
@@ -93,6 +115,12 @@ export default function AlertsPage() {
 
             {/* KPI */}
             <AlertsKpiBar />
+
+            {/* 분류 기준 안내 */}
+            <SeverityRulesCard
+                title="알림 분류 기준 — 현재 수량 ÷ 알림 기준 수량"
+                rules={STOCK_RULES}
+            />
 
             {/* 30일 발생 추이 */}
             <ChartCard

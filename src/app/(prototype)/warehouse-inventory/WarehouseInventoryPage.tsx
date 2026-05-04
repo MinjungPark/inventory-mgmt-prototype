@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 import { Boxes, Layers } from "lucide-react";
 
 import PageHeader from "@/components/common/PageHeader";
+import SeverityRulesCard from "@/components/ui/SeverityRulesCard";
 import { SKUS, WAREHOUSES } from "@/data/seed";
 import {
     findWarehouse,
@@ -25,6 +26,27 @@ import WarehouseKpiBar from "./components/WarehouseKpiBar";
 import WarehouseCard from "./components/WarehouseCard";
 import CategoryDistributionStack from "./components/CategoryDistributionStack";
 import WarehouseSkuTable from "./components/WarehouseSkuTable";
+
+const UTILIZATION_RULES = [
+    {
+        severity: "ok" as const,
+        label: "여유 운영",
+        threshold: "< 70%",
+        description: "보관 용량 여유 — 즉시 조치 필요 없음.",
+    },
+    {
+        severity: "warning" as const,
+        label: "보충 필요",
+        threshold: "70 ~ 85%",
+        description: "곧 만재 — 신규 입고 계획 수립이 권장됩니다.",
+    },
+    {
+        severity: "critical" as const,
+        label: "만재 임박",
+        threshold: "≥ 85%",
+        description: "신규 입고 어려움 — 즉시 분산 또는 출고가 필요합니다.",
+    },
+];
 
 export default function WarehouseInventoryPage() {
     // 선택 창고 (기본 = 본사 창고)
@@ -48,6 +70,12 @@ export default function WarehouseInventoryPage() {
 
             {/* 상단 KPI 4종 */}
             <WarehouseKpiBar />
+
+            {/* 가동률 분류 기준 */}
+            <SeverityRulesCard
+                title="가동률 분류 기준 — 보관 용량 대비 점유율"
+                rules={UTILIZATION_RULES}
+            />
 
             {/* 3창고 카드 */}
             <div>

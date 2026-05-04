@@ -11,6 +11,7 @@ import { STOCK_ALERTS } from "@/data/seed";
 import type { AlertSeverity } from "@/types/inventory";
 import InfoHint from "@/components/ui/InfoHint";
 import SeverityBadge, { type Severity } from "@/components/ui/SeverityBadge";
+import RatioGauge from "@/components/ui/RatioGauge";
 
 const SEVERITY_MAP: Record<AlertSeverity, { severity: Severity; label: string; ratioColor: string }> = {
     critical: { severity: "critical", label: "긴급", ratioColor: "text-[#991b1b]" },
@@ -89,13 +90,18 @@ export default function LowStockAlertWidget() {
                                     {a.storeSectionName ?? "—"} · {a.skuId}
                                 </p>
                             </div>
-                            <div className="shrink-0 text-right">
+                            <div className="shrink-0 flex flex-col items-end gap-0.5">
                                 <p className="text-[13px] font-semibold text-[#1a1a1a] tabular-nums">
                                     {a.currentQuantity}
                                     <span className="text-[11px] text-[#94a3b8] font-normal">
                                         {" "}/ {a.thresholdQuantity}
                                     </span>
                                 </p>
+                                <RatioGauge
+                                    ratio={a.currentQuantity / a.thresholdQuantity}
+                                    width={72}
+                                    height={5}
+                                />
                                 <p className={`text-[11px] font-semibold ${sev.ratioColor}`}>{ratio}%</p>
                             </div>
                         </div>

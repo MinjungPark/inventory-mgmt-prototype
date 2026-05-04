@@ -13,6 +13,7 @@ import { useMemo, useState } from "react";
 import { LayoutGrid } from "lucide-react";
 
 import PageHeader from "@/components/common/PageHeader";
+import SeverityRulesCard from "@/components/ui/SeverityRulesCard";
 import { STORE_SECTIONS, SKUS } from "@/data/seed";
 import {
     getSkusBySection,
@@ -26,6 +27,27 @@ import StoreFilterBar from "./components/StoreFilterBar";
 import SectionCard from "./components/SectionCard";
 import ZoneDistributionStack from "./components/ZoneDistributionStack";
 import ZoneSkuTable from "./components/ZoneSkuTable";
+
+const STOCK_RULES = [
+    {
+        severity: "critical" as const,
+        label: "부족",
+        threshold: "≤ 30%",
+        description: "결품 임박 — 즉시 발주 필요.",
+    },
+    {
+        severity: "warning" as const,
+        label: "주의",
+        threshold: "30 ~ 70%",
+        description: "곧 부족 예상 — 발주 계획 수립.",
+    },
+    {
+        severity: "ok" as const,
+        label: "충분",
+        threshold: "> 70%",
+        description: "여유 운영.",
+    },
+];
 
 export default function StoreInventoryPage() {
     // ─── 필터 상태 ─────────────────────────────────────────────────────────
@@ -98,6 +120,12 @@ export default function StoreInventoryPage() {
                 title="매장 재고"
                 subtitle="플래그십 매장 7개 섹션의 잔여 재고 수량 및 존(Zone) 단위 시각화"
                 rfpMapping="2-1 ① 매장 구역·존"
+            />
+
+            {/* 분류 기준 안내 */}
+            <SeverityRulesCard
+                title="재고 분류 기준 — 매장 재고 ÷ 알림 기준 수량"
+                rules={STOCK_RULES}
             />
 
             {/* ─── 필터바 ─── */}

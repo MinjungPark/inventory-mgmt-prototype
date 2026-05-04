@@ -65,8 +65,8 @@ const OUTLINE_STYLES: Record<Severity, ToneSpec> = {
 
 const SOLID_STYLES: Record<Severity, ToneSpec> = {
     critical: {
-        bg: "#dc2626",
-        border: "#dc2626",
+        bg: "#b34530",       // 차분한 벽돌-크림슨 (캡틴 캡쳐 톤)
+        border: "#b34530",
         color: "#ffffff",
     },
     warning: {

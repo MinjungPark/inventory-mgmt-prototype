@@ -9,6 +9,7 @@ import { useState } from "react";
 import { CheckCheck } from "lucide-react";
 import type { StockAlert } from "@/types/inventory";
 import SeverityBadge, { type Severity } from "@/components/ui/SeverityBadge";
+import RatioGauge from "@/components/ui/RatioGauge";
 import { SEVERITY_LABEL, STATUS_LABEL } from "@/data/seed/alerts-helpers";
 
 interface AlertsTableProps {
@@ -168,12 +169,21 @@ export default function AlertsTable({ alerts, onAcknowledge }: AlertsTableProps)
                                         <td className="px-3 py-2.5 text-[12px] text-[#4a5568] whitespace-nowrap">
                                             {a.storeSectionName ?? "—"}
                                         </td>
-                                        <td className="px-3 py-2.5 text-[12px] text-right tabular-nums">
-                                            <span className="font-semibold text-[#1a1a1a]">{a.currentQuantity}</span>
-                                            <span className="text-[#94a3b8]"> / {a.thresholdQuantity}</span>
-                                            <span className="ml-2 text-[11px] font-semibold text-[#c2410c]">
-                                                {ratio}%
-                                            </span>
+                                        <td className="px-3 py-2.5 text-right">
+                                            <div className="inline-flex items-center gap-2 justify-end">
+                                                <span className="text-[12px] tabular-nums">
+                                                    <span className="font-semibold text-[#1a1a1a]">{a.currentQuantity}</span>
+                                                    <span className="text-[#94a3b8]"> / {a.thresholdQuantity}</span>
+                                                </span>
+                                                <RatioGauge
+                                                    ratio={a.currentQuantity / a.thresholdQuantity}
+                                                    width={88}
+                                                    height={8}
+                                                />
+                                                <span className="w-9 text-[11px] font-semibold text-[#1a1a1a] tabular-nums text-right">
+                                                    {ratio}%
+                                                </span>
+                                            </div>
                                         </td>
                                         <td className="px-3 py-2.5 text-center">
                                             <SeverityBadge
