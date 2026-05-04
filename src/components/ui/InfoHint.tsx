@@ -1,7 +1,11 @@
 /**
  * @file src/components/ui/InfoHint.tsx
  * @description 인라인 인포 박스 — 차트/카드/표에 호버 도움말 표시.
- *              ENERTORK 차별화 영역 E "시스템 자체 설명" 패턴.
+ *
+ *  두 가지 사용 패턴:
+ *   1) 단순 한 줄 설명 → text prop
+ *   2) 구조화된 개념 설명 → title + definition + bullets
+ *      (시니어 글쓰기 3원칙 위계: 헤더 → 정의 한 줄 → 도트 디테일)
  */
 
 "use client";
@@ -10,8 +14,14 @@ import { Info } from "lucide-react";
 import { useState } from "react";
 
 interface InfoHintProps {
-    /** 도움말 본문 (한 두 문장 권장) */
-    text: string;
+    /** 단순 한 줄 도움말. text 또는 title 둘 중 하나만 사용. */
+    text?: string;
+    /** 구조화 — 굵은 헤더 (예: "SKU (Stock Keeping Unit)") */
+    title?: string;
+    /** 구조화 — 정의 한 줄 (예: "재고 관리의 가장 작은 식별 단위.") */
+    definition?: string;
+    /** 구조화 — 푸른 도트 bullet 라인 */
+    bullets?: string[];
     /** 위치: top(기본) / right / bottom / left */
     placement?: "top" | "right" | "bottom" | "left";
     /** 아이콘 크기 (기본 14) */
@@ -25,8 +35,17 @@ const PLACEMENT_CLASSES: Record<NonNullable<InfoHintProps["placement"]>, string>
     left: "right-full top-1/2 -translate-y-1/2 mr-2",
 };
 
-export default function InfoHint({ text, placement = "top", size = 14 }: InfoHintProps) {
+export default function InfoHint({
+    text,
+    title,
+    definition,
+    bullets,
+    placement = "top",
+    size = 14,
+}: InfoHintProps) {
     const [open, setOpen] = useState(false);
+
+    const isStructured = !!(title || definition || (bullets && bullets.length > 0));
 
     return (
         <span
@@ -47,9 +66,46 @@ export default function InfoHint({ text, placement = "top", size = 14 }: InfoHin
             {open && (
                 <span
                     role="tooltip"
-                    className={`absolute z-50 ${PLACEMENT_CLASSES[placement]} w-[260px] bg-white border border-[#e0e0e0] rounded-md px-3 py-2 shadow-[0_2px_8px_rgba(0,0,0,0.08)] text-[12px] leading-[1.6] text-[#4a5568] font-normal whitespace-normal`}
+                    className={`absolute z-50 ${PLACEMENT_CLASSES[placement]} w-[300px] bg-white border border-[#e0e0e0] rounded-md shadow-[0_4px_16px_rgba(0,0,0,0.10)] font-normal text-left whitespace-normal overflow-hidden`}
                 >
-                    {text}
+                    {isStructured ? (
+                        <span className="block">
+                            {title && (
+                                <span className="block px-3.5 pt-3 pb-2 border-b border-[#e2e8f0] bg-[#f8fafc]">
+                                    <span className="text-[13px] font-bold text-[#0d47a1] tracking-tight">
+                                        {title}
+                                    </span>
+                                </span>
+                            )}
+                            <span className="block px-3.5 py-3">
+                                {definition && (
+                                    <span className="block text-[12px] leading-[1.7] text-[#1a1a1a] font-medium mb-2">
+                                        {definition}
+                                    </span>
+                                )}
+                                {bullets && bullets.length > 0 && (
+                                    <ul className="space-y-1.5 mt-1">
+                                        {bullets.map((b, i) => (
+                                            <li
+                                                key={i}
+                                                className="flex gap-2 text-[12px] leading-[1.65] text-[#4a5568]"
+                                            >
+                                                <span
+                                                    className="shrink-0 mt-[7px] w-[5px] h-[5px] rounded-full bg-[#0d47a1]"
+                                                    aria-hidden="true"
+                                                />
+                                                <span className="flex-1">{b}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </span>
+                        </span>
+                    ) : (
+                        <span className="block px-3.5 py-2.5 text-[12px] leading-[1.7] text-[#4a5568]">
+                            {text}
+                        </span>
+                    )}
                 </span>
             )}
         </span>

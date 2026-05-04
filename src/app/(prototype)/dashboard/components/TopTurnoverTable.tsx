@@ -25,7 +25,13 @@ export default function TopTurnoverTable() {
                                 TOP 회전율 SKU
                             </h3>
                             <InfoHint
-                                text="SKU(Stock Keeping Unit)는 재고 관리의 가장 작은 식별 단위입니다. 같은 '트렌치 코트'라도 베이지/네이비, M/L 변형은 각각 다른 SKU로 관리합니다. 본 표는 개별 SKU의 월평균 회전율 상위 10개 — 회전율 = 매출 수량 ÷ 평균 재고. 이 품목들은 발주 빈도를 늘려 결품을 방지해야 하는 핵심 SKU입니다."
+                                title="TOP 회전율 SKU"
+                                definition="개별 SKU의 월평균 회전율 상위 10건."
+                                bullets={[
+                                    "회전율 = 매출 수량 ÷ 평균 재고 (회/월)",
+                                    "SKU는 재고 관리의 가장 작은 식별 단위 (색상·사이즈 변형은 별도 SKU)",
+                                    "발주 빈도를 늘려 결품을 방지해야 하는 핵심 SKU",
+                                ]}
                             />
                         </div>
                         <span className="text-[12px] text-[#718096] mt-0.5">

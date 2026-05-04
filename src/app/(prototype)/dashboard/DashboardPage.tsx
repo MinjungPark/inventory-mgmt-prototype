@@ -69,7 +69,13 @@ export default function DashboardPage() {
                     value={kpi.totalSku.toLocaleString()}
                     unit="개"
                     Icon={Boxes}
-                    info="SKU(Stock Keeping Unit)는 재고 관리의 가장 작은 식별 단위입니다. 같은 품목이라도 색상·사이즈 변형은 각각 다른 SKU로 관리합니다. 매장·창고 전체에 등록된 활성 SKU 수입니다."
+                    infoTitle="SKU (Stock Keeping Unit)"
+                    infoDefinition="재고 관리의 가장 작은 식별 단위."
+                    infoBullets={[
+                        "같은 품목이라도 색상·사이즈 변형은 각각 다른 SKU",
+                        "예: '트렌치 코트 베이지 M' / '트렌치 코트 네이비 L' = 2 SKU",
+                        "본 KPI는 매장·창고 전체에 등록된 활성 SKU 수",
+                    ]}
                     trend={{ value: 2.4, direction: "up", label: "전월 대비" }}
                 />
                 <KpiCard
@@ -93,7 +99,13 @@ export default function DashboardPage() {
                     unit="건"
                     Icon={AlertCircle}
                     tone="critical"
-                    info="관리자가 설정한 SKU별 알림 기준 수량보다 매장 재고가 부족한 SKU 수. 설정 페이지(/admin/threshold)에서 SKU별 또는 카테고리 일괄로 기준 수량을 조정할 수 있습니다."
+                    infoTitle="안전 재고 알림"
+                    infoDefinition="설정한 알림 기준 수량보다 매장 재고가 부족한 SKU 수."
+                    infoBullets={[
+                        "심각도는 현재 ÷ 기준 비율로 자동 분류",
+                        "긴급(적색) 30% 이하 / 주의(황색) 30~70% / 정상(녹색) 70% 초과",
+                        "기준 수량은 '재고 알림 설정' 메뉴에서 SKU별·카테고리별 조정",
+                    ]}
                     trend={{ value: 12, direction: "up", label: "전일 대비" }}
                 />
                 <KpiCard
@@ -144,7 +156,13 @@ export default function DashboardPage() {
                     Icon={Activity}
                     title="카테고리별 재고 회전율"
                     subtitle="7 카테고리 월평균 (회/월)"
-                    info="재고 회전율 = 매출 수량 ÷ 평균 재고 수량. 한 달에 평균 재고가 몇 번 다 팔리고 다시 채워졌는지를 나타냅니다. 높을수록 빠르게 팔리는 카테고리, 낮을수록 천천히 팔립니다."
+                    infoTitle="재고 회전율 (Inventory Turnover)"
+                    infoDefinition="매출 수량 ÷ 평균 재고 수량. 한 달에 재고가 몇 번 도는지."
+                    infoBullets={[
+                        "높음 → 빠르게 팔림. 발주 빈도 ↑, 결품 방지가 핵심",
+                        "낮음 → 천천히 팔림. 발주 ↓, 할인·회수 검토 필요",
+                        "예: 화장품 5.7회/월 = 평균 재고가 약 5일에 한 번 비고 재발주",
+                    ]}
                     height={300}
                 >
                     <CategoryTurnoverBar />
@@ -154,7 +172,13 @@ export default function DashboardPage() {
                     Icon={Radar}
                     title="자주 알림 발생 SKU TOP 5"
                     subtitle="안전 재고 미달 빈도"
-                    info="SKU(Stock Keeping Unit)는 재고 관리의 가장 작은 식별 단위(예: 트렌치 코트 베이지 M). 본 차트는 최근 안전 재고 알림이 가장 자주 발생한 SKU 상위 5개 — 발주 정책 재검토 또는 안전 재고 기준 상향이 필요한 후보입니다."
+                    infoTitle="자주 알림 발생 SKU"
+                    infoDefinition="최근 안전 재고 알림이 가장 자주 발생한 SKU 상위 5개."
+                    infoBullets={[
+                        "SKU = 재고 관리의 가장 작은 식별 단위 (예: 트렌치 코트 베이지 M)",
+                        "발주 정책 재검토가 필요한 후보군",
+                        "또는 안전 재고 기준 수량을 상향해야 하는 후보군",
+                    ]}
                     height={300}
                 >
                     <FrequentAlertSkuRadar />

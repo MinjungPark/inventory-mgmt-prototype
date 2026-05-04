@@ -16,8 +16,14 @@ interface KpiCardProps {
     Icon: LucideIcon;
     /** 강조 톤 — 보통(default) / 위험(critical) / 강조(accent) */
     tone?: "default" | "critical" | "accent";
-    /** 호버 시 도움말 (정의·계산식 등). 있으면 라벨 우측에 인포 아이콘 표시. */
+    /** 호버 시 도움말 (한 줄). 구조화는 infoTitle / infoDefinition / infoBullets 사용. */
     info?: string;
+    /** 구조화 인포 — 굵은 헤더 */
+    infoTitle?: string;
+    /** 구조화 인포 — 정의 한 줄 */
+    infoDefinition?: string;
+    /** 구조화 인포 — 푸른 도트 bullet */
+    infoBullets?: string[];
     /** 전기 대비 추이 */
     trend?: {
         value: number;        // 증감률 (예: 2.4)
@@ -55,9 +61,13 @@ export default function KpiCard({
     Icon,
     tone = "default",
     info,
+    infoTitle,
+    infoDefinition,
+    infoBullets,
     trend,
 }: KpiCardProps) {
     const styles = TONE_STYLES[tone];
+    const hasInfo = info || infoTitle || infoDefinition || (infoBullets && infoBullets.length > 0);
 
     return (
         <div className="bg-white border border-[#e2e8f0] rounded-md p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_8px_rgba(13,71,161,0.08)] hover:border-[#cbd5e1] transition-all group">
@@ -65,7 +75,15 @@ export default function KpiCard({
                 <div className="flex flex-col gap-1.5">
                     <div className="flex items-center gap-1">
                         <span className="text-[12px] font-medium text-[#718096]">{label}</span>
-                        {info && <InfoHint text={info} size={12} />}
+                        {hasInfo && (
+                            <InfoHint
+                                text={info}
+                                title={infoTitle}
+                                definition={infoDefinition}
+                                bullets={infoBullets}
+                                size={12}
+                            />
+                        )}
                     </div>
                     <div className="flex items-baseline gap-1">
                         <span className={`text-[24px] font-bold tracking-tight ${styles.valueColor}`}>

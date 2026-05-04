@@ -11,8 +11,14 @@ interface ChartCardProps {
     Icon: LucideIcon;
     title: string;
     subtitle?: string;
-    /** 호버 시 도움말 (정의·계산식 등). 있으면 헤더 우측에 인포 아이콘 표시. */
+    /** 호버 시 도움말 (한 줄) */
     info?: string;
+    /** 구조화 인포 — 굵은 헤더 */
+    infoTitle?: string;
+    /** 구조화 인포 — 정의 한 줄 */
+    infoDefinition?: string;
+    /** 구조화 인포 — 푸른 도트 bullet */
+    infoBullets?: string[];
     actions?: ReactNode;
     /** 차트 영역 높이 (px) */
     height?: number;
@@ -26,11 +32,16 @@ export default function ChartCard({
     title,
     subtitle,
     info,
+    infoTitle,
+    infoDefinition,
+    infoBullets,
     actions,
     height = 280,
     children,
     className = "",
 }: ChartCardProps) {
+    const hasInfo = info || infoTitle || infoDefinition || (infoBullets && infoBullets.length > 0);
+
     return (
         <div
             className={`bg-white border border-[#e2e8f0] rounded-md p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col ${className}`}
@@ -41,7 +52,14 @@ export default function ChartCard({
                     <div className="flex flex-col leading-tight">
                         <div className="flex items-center gap-1.5">
                             <h3 className="text-[14px] font-semibold text-[#1a1a1a]">{title}</h3>
-                            {info && <InfoHint text={info} />}
+                            {hasInfo && (
+                                <InfoHint
+                                    text={info}
+                                    title={infoTitle}
+                                    definition={infoDefinition}
+                                    bullets={infoBullets}
+                                />
+                            )}
                         </div>
                         {subtitle && (
                             <span className="text-[12px] text-[#718096] mt-0.5">{subtitle}</span>
