@@ -112,7 +112,7 @@ export default function SectionCard({
             <div className="flex items-center justify-between mt-3">
                 <SeverityBadge
                     severity={status.severity}
-                    icon={<Package size={10} strokeWidth={2.4} />}
+                    icon={<Package size={11} strokeWidth={2.4} />}
                 >
                     {status.label}
                 </SeverityBadge>

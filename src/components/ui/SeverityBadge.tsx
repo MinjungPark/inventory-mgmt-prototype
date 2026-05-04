@@ -2,11 +2,11 @@
  * @file src/components/ui/SeverityBadge.tsx
  * @description 의미 색상 배지 — ENERTORK 베스트셀러 배지 정통 스펙 미러링.
  *
- *  DevTools 추출값:
+ *  DevTools 추출값 (font-size 10 → 11 IOM 룰 준수):
  *    bg:           rgba(seed, 0.08)
  *    border:       rgba(seed, 0.22)
  *    color:        진한 hex
- *    font-size:    10px
+ *    font-size:    11px (IOM 최소 데이터 폰트 룰)
  *    letter-spacing: 0.2px
  *    border-radius: 5px
  *    padding:      2px 6px
@@ -65,7 +65,7 @@ export default function SeverityBadge({
     const s = STYLES[severity];
     return (
         <span
-            className={`inline-flex items-center gap-1 font-bold text-[10px] leading-[1.4] ${className}`}
+            className={`inline-flex items-center gap-1 font-bold text-[11px] leading-[1.4] ${className}`}
             style={{
                 background: s.bg,
                 border: `1px solid ${s.border}`,
