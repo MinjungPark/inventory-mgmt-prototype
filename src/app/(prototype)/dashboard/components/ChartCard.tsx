@@ -20,8 +20,10 @@ interface ChartCardProps {
     /** 구조화 인포 — 푸른 도트 bullet */
     infoBullets?: string[];
     actions?: ReactNode;
-    /** 차트 영역 높이 (px) */
+    /** 차트 영역 높이 (px) — heightMode='fixed' 일 때만 사용 */
     height?: number;
+    /** 'fixed' (기본, 고정 px) 또는 'auto' (자식 비율에 따라 자동) */
+    heightMode?: "fixed" | "auto";
     children: ReactNode;
     /** col-span 제어용 외부 클래스 */
     className?: string;
@@ -37,6 +39,7 @@ export default function ChartCard({
     infoBullets,
     actions,
     height = 280,
+    heightMode = "fixed",
     children,
     className = "",
 }: ChartCardProps) {
@@ -68,7 +71,10 @@ export default function ChartCard({
                 </div>
                 {actions && <div className="flex items-center gap-1.5">{actions}</div>}
             </div>
-            <div style={{ height }} className="w-full">
+            <div
+                style={heightMode === "fixed" ? { height } : undefined}
+                className="w-full"
+            >
                 {children}
             </div>
         </div>

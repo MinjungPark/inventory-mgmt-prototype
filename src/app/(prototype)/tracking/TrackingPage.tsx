@@ -82,7 +82,7 @@ export default function TrackingPage() {
                 <DailyTrendLine />
             </ChartCard>
 
-            {/* 매장 ↔ 창고 흐름 Sankey */}
+            {/* 매장 ↔ 창고 흐름 Sankey — height 'auto'로 비율 자동 */}
             <ChartCard
                 Icon={Network}
                 title="매장 ↔ 창고 흐름"
@@ -94,7 +94,7 @@ export default function TrackingPage() {
                     "색상은 입출고 유형을 구분하며 상단 필터로 단일 유형만 강조 가능합니다.",
                     "흐름 위에 마우스를 올리면 해당 흐름이 강조되며 출발지·도착지·수량이 표시됩니다.",
                 ]}
-                height={580}
+                heightMode="auto"
             >
                 <FlowSankey />
             </ChartCard>

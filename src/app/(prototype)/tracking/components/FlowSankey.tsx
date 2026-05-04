@@ -259,12 +259,17 @@ export default function FlowSankey() {
                 </div>
             </div>
 
-            {/* SVG Sankey — overflow-hidden으로 컨테이너 좌측 침범 차단, viewBox 비율 유지 */}
-            <div className="relative w-full overflow-hidden bg-[#f8fafc] border border-[#e2e8f0] rounded-md">
+            {/* SVG Sankey — 부모 컨테이너 크기에 SVG 비율 맞춤. overflow-hidden으로 침범 차단. */}
+            <div
+                className="relative w-full overflow-hidden bg-[#f8fafc] border border-[#e2e8f0] rounded-md"
+                style={{ aspectRatio: `${VIEW_W} / ${VIEW_H}` }}
+            >
                 <svg
                     viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
                     preserveAspectRatio="xMidYMid meet"
-                    className="w-full h-auto block"
+                    width="100%"
+                    height="100%"
+                    className="block absolute inset-0"
                 >
                     {/* 컬럼 라벨 */}
                     <text
