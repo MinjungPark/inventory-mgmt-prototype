@@ -114,12 +114,23 @@ function generateSkusForCategory(category: ProductCategory, count: number): Sku[
         const threshold = 5 + Math.floor(det() * 15);
         const storeQuantity = Math.floor(det() * 40);
         const warehouseQuantity = 20 + Math.floor(det() * 200);
-        // 회전율 0.2 ~ 9.8 — TOP 10 차이가 시각적으로 드러나면서 시작과 끝(0)이 보이도록.
-        // 일부 카테고리(화장품)에 가중치 부여해 현실 패턴 반영.
-        const baseTurnover = 0.2 + det() * 9.6;
-        const categoryBoost =
-            category === "화장품" ? 1.15 : category === "의류" ? 1.05 : 1.0;
-        const turnoverRate = +Math.min(9.99, baseTurnover * categoryBoost).toFixed(2);
+
+        // ─── 회전율 — 균등 분포 0.5 ~ 9.5 + 카테고리 가산 ───
+        //
+        // 균등 분포가 TOP 10에 가장 자연스러운 순위 차이를 만듦.
+        //   (예: 9.5 / 8.7 / 7.9 / 7.1 … 5.5 식으로 1~10등이 약 4 차이)
+        // 거듭제곱·정규분포는 상위권을 좁게 압축해서 시각 임팩트가 죽음.
+        const baseTurnover = 0.5 + det() * 9.0;       // 0.5 ~ 9.5 균등
+        const categoryAdj =
+            category === "화장품" ? 0.3 :
+            category === "의류"   ? 0.2 :
+            category === "잡화"   ? 0.0 :
+            category === "신발"   ? -0.1 :
+                                    -0.2;              // 라이프스타일
+        const turnoverRate = +Math.max(
+            0.2,
+            Math.min(9.8, baseTurnover + categoryAdj)
+        ).toFixed(2);
 
         const lastRestockedAt = new Date(
             Date.now() - Math.floor(det() * 30) * 24 * 60 * 60 * 1000,

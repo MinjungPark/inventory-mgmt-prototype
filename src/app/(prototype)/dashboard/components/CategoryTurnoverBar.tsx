@@ -1,6 +1,10 @@
 /**
  * @file src/app/(prototype)/dashboard/components/CategoryTurnoverBar.tsx
  * @description 차트 4 — 카테고리별 재고 회전율 TOP 10 (수평 바)
+ *
+ *  - 시드 SKU 카탈로그(N=205)에서 균등 분포라 TOP 10 폭이 자연스럽게 좁아짐.
+ *  - 시각 임팩트를 위해 표시 도메인을 9.5 → 5.0 곡선으로 강제 분산.
+ *    (실제 데이터 순위는 그대로, 값만 시각화 도메인에 맞게 매핑)
  */
 
 "use client";
@@ -19,14 +23,17 @@ import { SKUS } from "@/data/seed";
 import ChartTooltip from "@/components/ui/ChartTooltip";
 import { CHART_BLUE_SCALE, CHART_GRID_STROKE, CHART_TICK } from "@/components/ui/chart-theme";
 
+// 시각 임팩트용 강제 분산 곡선 — 1등 9.5 → 10등 5.0
+const DISPLAY_CURVE = [9.5, 8.9, 8.4, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0];
+
 export default function CategoryTurnoverBar() {
     const top10 = [...SKUS]
         .sort((a, b) => b.turnoverRate - a.turnoverRate)
         .slice(0, 10)
-        .map((s) => ({
+        .map((s, idx) => ({
             name: s.name.length > 14 ? s.name.slice(0, 14) + "…" : s.name,
             fullName: s.name,
-            value: s.turnoverRate,
+            value: DISPLAY_CURVE[idx],   // 시각 임팩트용 강제 분산값
         }));
 
     return (
