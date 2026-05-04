@@ -8,6 +8,7 @@
 import type { Sku, StoreSection } from "@/types/inventory";
 import { getStockStatus, getZoneIdForSku } from "@/data/seed/store-helpers";
 import type { StockStatus } from "@/data/seed/store-helpers";
+import SeverityBadge, { type Severity } from "@/components/ui/SeverityBadge";
 
 interface ZoneSkuTableProps {
     section: StoreSection;
@@ -16,10 +17,10 @@ interface ZoneSkuTableProps {
     statusFilter?: StockStatus | "ALL";
 }
 
-const STATUS_BADGE: Record<StockStatus, { bg: string; text: string; border: string; label: string }> = {
-    sufficient: { bg: "bg-[#f0fdf4]", text: "text-[#15803d]", border: "border-[#bbf7d0]", label: "충분" },
-    warning:    { bg: "bg-[#fff7ed]", text: "text-[#9a3412]", border: "border-[#fed7aa]", label: "주의" },
-    shortage:   { bg: "bg-[#fef2f2]", text: "text-[#991b1b]", border: "border-[#fecaca]", label: "부족" },
+const STATUS_TO_SEVERITY: Record<StockStatus, { severity: Severity; label: string }> = {
+    sufficient: { severity: "ok",       label: "충분" },
+    warning:    { severity: "warning",  label: "주의" },
+    shortage:   { severity: "critical", label: "부족" },
 };
 
 export default function ZoneSkuTable({ section, skus, statusFilter = "ALL" }: ZoneSkuTableProps) {
@@ -63,7 +64,7 @@ export default function ZoneSkuTable({ section, skus, statusFilter = "ALL" }: Zo
                 </thead>
                 <tbody className="divide-y divide-[#f1f5f9]">
                     {filtered.map((sku) => {
-                        const badge = STATUS_BADGE[sku.status];
+                        const badge = STATUS_TO_SEVERITY[sku.status];
                         return (
                             <tr key={sku.id} className="hover:bg-[#f8fafc] transition-colors">
                                 <td className="px-3 py-2.5 text-center">
@@ -84,11 +85,9 @@ export default function ZoneSkuTable({ section, skus, statusFilter = "ALL" }: Zo
                                     {sku.threshold}
                                 </td>
                                 <td className="px-3 py-2.5 text-center">
-                                    <span
-                                        className={`inline-flex items-center justify-center px-2 h-5 rounded-md border text-[11px] font-bold ${badge.bg} ${badge.text} ${badge.border}`}
-                                    >
+                                    <SeverityBadge severity={badge.severity}>
                                         {badge.label}
-                                    </span>
+                                    </SeverityBadge>
                                 </td>
                                 <td className="px-3 py-2.5 text-[12px] text-right text-[#4a5568] tabular-nums">
                                     {sku.unitPriceKRW.toLocaleString()}원

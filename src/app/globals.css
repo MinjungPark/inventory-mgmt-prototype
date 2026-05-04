@@ -55,14 +55,26 @@
   --border-strong: #cbd5e1;
   --border-mute: #f1f5f9;
 
-  /* ─── Severity (ENERTORK Calm 톤 — 형광 회피) ─── */
+  /* ─── Severity (ENERTORK 정통 토큰 — DevTools 추출값 그대로) ─── */
+  /* 패턴: 배경 = rgba(seed, 0.08) / 보더 = rgba(seed, 0.22) / 텍스트 = 진한 hex */
+
+  /* 주의 (ENERTORK 베스트셀러 배지 톤) */
+  --sev-warning: #c2410c;
+  --sev-warning-bg: rgba(234, 124, 46, 0.08);    /* #ea7c2e14 */
+  --sev-warning-border: rgba(234, 124, 46, 0.22); /* #ea7c2e38 */
+
+  /* 긴급 (적색 — 같은 알파 패턴) */
   --sev-critical: #991b1b;
-  --sev-warning: #9a3412;
+  --sev-critical-bg: rgba(220, 38, 38, 0.08);
+  --sev-critical-border: rgba(220, 38, 38, 0.22);
+
+  /* 정상 (녹색 — 같은 알파 패턴) */
   --sev-ok: #15803d;
+  --sev-ok-bg: rgba(34, 197, 94, 0.08);
+  --sev-ok-border: rgba(34, 197, 94, 0.22);
+
+  /* 정보 */
   --sev-info: #0d47a1;
-  --sev-critical-bg: #fef2f2;
-  --sev-warning-bg: #fff7ed;
-  --sev-ok-bg: #f0fdf4;
 
   /* ─── Warn (As-Is 강조용) ─── */
   --warn: #92400e;

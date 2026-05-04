@@ -8,6 +8,7 @@
 
 import { ChevronRight, Layers, Package } from "lucide-react";
 import type { StoreSection } from "@/types/inventory";
+import SeverityBadge, { type Severity } from "@/components/ui/SeverityBadge";
 
 interface SectionCardProps {
     section: StoreSection;
@@ -38,13 +39,13 @@ export default function SectionCard({
 }: SectionCardProps) {
     const gradient = FLOOR_GRADIENT[section.floor] ?? FLOOR_GRADIENT["1F"];
 
-    // 부족률에 따라 우측 상태 띠 컬러 — ENERTORK 차분 톤 미러링
-    const statusTone =
+    // 부족률에 따라 의미 색상 결정 — ENERTORK 정통 토큰
+    const status: { severity: Severity; label: string } =
         shortageRatio >= 0.15
-            ? { color: "text-[#991b1b]", bg: "bg-[#fef2f2]", border: "border-[#fecaca]", label: "재고 주의" }
+            ? { severity: "critical", label: "재고 주의" }
             : shortageRatio >= 0.05
-                ? { color: "text-[#9a3412]", bg: "bg-[#fff7ed]", border: "border-[#fed7aa]", label: "일부 부족" }
-                : { color: "text-[#15803d]", bg: "bg-[#f0fdf4]", border: "border-[#bbf7d0]", label: "정상 운영" };
+                ? { severity: "warning", label: "일부 부족" }
+                : { severity: "ok", label: "정상 운영" };
 
     return (
         <button
@@ -107,14 +108,14 @@ export default function SectionCard({
                 </div>
             </div>
 
-            {/* 상태 배지 */}
+            {/* 상태 배지 — ENERTORK 정통 SeverityBadge */}
             <div className="flex items-center justify-between mt-3">
-                <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[11px] font-semibold ${statusTone.bg} ${statusTone.border} ${statusTone.color}`}
+                <SeverityBadge
+                    severity={status.severity}
+                    icon={<Package size={10} strokeWidth={2.4} />}
                 >
-                    <Package size={11} strokeWidth={2.2} />
-                    {statusTone.label}
-                </span>
+                    {status.label}
+                </SeverityBadge>
                 <span className="inline-flex items-center gap-1 text-[11px] text-[#718096]">
                     <Layers size={11} strokeWidth={2} />
                     부족률 {(shortageRatio * 100).toFixed(1)}%

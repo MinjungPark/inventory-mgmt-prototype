@@ -10,26 +10,12 @@ import { AlertTriangle, ArrowRight } from "lucide-react";
 import { STOCK_ALERTS } from "@/data/seed";
 import type { AlertSeverity } from "@/types/inventory";
 import InfoHint from "@/components/ui/InfoHint";
+import SeverityBadge, { type Severity } from "@/components/ui/SeverityBadge";
 
-const SEVERITY_STYLE: Record<AlertSeverity, { bg: string; text: string; border: string; label: string }> = {
-    critical: {
-        bg: "bg-[#fef2f2]",
-        text: "text-[#991b1b]",
-        border: "border-[#fecaca]",
-        label: "긴급",
-    },
-    warning: {
-        bg: "bg-[#fff7ed]",
-        text: "text-[#9a3412]",
-        border: "border-[#fed7aa]",
-        label: "주의",
-    },
-    ok: {
-        bg: "bg-[#f0fdf4]",
-        text: "text-[#15803d]",
-        border: "border-[#bbf7d0]",
-        label: "정상",
-    },
+const SEVERITY_MAP: Record<AlertSeverity, { severity: Severity; label: string; ratioColor: string }> = {
+    critical: { severity: "critical", label: "긴급", ratioColor: "text-[#991b1b]" },
+    warning:  { severity: "warning",  label: "주의", ratioColor: "text-[#c2410c]" },
+    ok:       { severity: "ok",       label: "정상", ratioColor: "text-[#15803d]" },
 };
 
 export default function LowStockAlertWidget() {
@@ -81,18 +67,16 @@ export default function LowStockAlertWidget() {
 
             <div className="divide-y divide-[#f1f5f9] -mx-2">
                 {top10.map((a) => {
-                    const sev = SEVERITY_STYLE[a.severity];
+                    const sev = SEVERITY_MAP[a.severity];
                     const ratio = Math.round((a.currentQuantity / a.thresholdQuantity) * 100);
                     return (
                         <div
                             key={a.id}
                             className="px-2 py-3 flex items-center gap-3 hover:bg-[#f8fafc] transition-colors rounded-sm"
                         >
-                            <span
-                                className={`shrink-0 w-14 h-6 rounded-sm border ${sev.bg} ${sev.text} ${sev.border} text-[11px] font-bold flex items-center justify-center`}
-                            >
+                            <SeverityBadge severity={sev.severity} className="shrink-0 w-14 justify-center">
                                 {sev.label}
-                            </span>
+                            </SeverityBadge>
                             <div className="flex-1 min-w-0">
                                 <p className="text-[13px] font-medium text-[#1a1a1a] truncate">
                                     {a.skuName}
@@ -108,7 +92,7 @@ export default function LowStockAlertWidget() {
                                         {" "}/ {a.thresholdQuantity}
                                     </span>
                                 </p>
-                                <p className={`text-[11px] font-semibold ${sev.text}`}>{ratio}%</p>
+                                <p className={`text-[11px] font-semibold ${sev.ratioColor}`}>{ratio}%</p>
                             </div>
                         </div>
                     );
