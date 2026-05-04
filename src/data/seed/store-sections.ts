@@ -1,6 +1,7 @@
 /**
  * @file src/data/seed/store-sections.ts
- * @description 매장 섹션 시드 — v3 5-1 표 그대로 (5섹션 / 약 1,520 SKU)
+ * @description 매장 섹션 시드 — 7섹션 / 약 1,800 SKU (매장 노출 분).
+ *              기존 5섹션(작업지시서 v3 5-1)에서 언더웨어(1F-C) + 주얼리(2F-C) 확장.
  */
 
 import type { StoreSection } from "@/types/inventory";
@@ -34,6 +35,19 @@ export const STORE_SECTIONS: StoreSection[] = [
         ],
     },
     {
+        id: "1F-C",
+        floor: "1F",
+        category: "언더웨어",
+        name: "1F-C 언더웨어",
+        skuCount: 160,
+        totalQuantity: 2240,
+        totalValueKRW: 64_800_000,
+        zones: [
+            { id: "A", name: "A존", skuCount:  88, quantity: 1240, valueKRW: 35_700_000 },
+            { id: "B", name: "B존", skuCount:  72, quantity: 1000, valueKRW: 29_100_000 },
+        ],
+    },
+    {
         id: "2F-A",
         floor: "2F",
         category: "잡화",
@@ -42,9 +56,9 @@ export const STORE_SECTIONS: StoreSection[] = [
         totalQuantity: 3120,
         totalValueKRW: 156_800_000,
         zones: [
-            { id: "A", name: "A존", skuCount: 110, quantity: 1180, valueKRW:  62_400_000 },
-            { id: "B", name: "B존", skuCount:  98, quantity: 1060, valueKRW:  53_300_000 },
-            { id: "C", name: "C존", skuCount:  82, quantity:  880, valueKRW:  41_100_000 },
+            { id: "A", name: "A존", skuCount: 110, quantity: 1180, valueKRW: 62_400_000 },
+            { id: "B", name: "B존", skuCount:  98, quantity: 1060, valueKRW: 53_300_000 },
+            { id: "C", name: "C존", skuCount:  82, quantity:  880, valueKRW: 41_100_000 },
         ],
     },
     {
@@ -61,6 +75,19 @@ export const STORE_SECTIONS: StoreSection[] = [
         ],
     },
     {
+        id: "2F-C",
+        floor: "2F",
+        category: "주얼리",
+        name: "2F-C 주얼리",
+        skuCount: 120,
+        totalQuantity: 540,
+        totalValueKRW: 184_300_000,
+        zones: [
+            { id: "A", name: "A존", skuCount:  68, quantity: 310, valueKRW: 104_500_000 },
+            { id: "B", name: "B존", skuCount:  52, quantity: 230, valueKRW:  79_800_000 },
+        ],
+    },
+    {
         id: "3F-A",
         floor: "3F",
         category: "라이프스타일",
@@ -69,8 +96,8 @@ export const STORE_SECTIONS: StoreSection[] = [
         totalQuantity: 1420,
         totalValueKRW:  78_300_000,
         zones: [
-            { id: "A", name: "A존", skuCount:  98, quantity:  780, valueKRW:  43_200_000 },
-            { id: "B", name: "B존", skuCount:  82, quantity:  640, valueKRW:  35_100_000 },
+            { id: "A", name: "A존", skuCount:  98, quantity:  780, valueKRW: 43_200_000 },
+            { id: "B", name: "B존", skuCount:  82, quantity:  640, valueKRW: 35_100_000 },
         ],
     },
 ];

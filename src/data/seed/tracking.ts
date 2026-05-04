@@ -22,11 +22,13 @@ const MEMOS: Record<TrackingType, string[]> = {
 };
 
 const CATEGORY_VOLUME_WEIGHT: Record<ProductCategory, number> = {
-    화장품: 0.35,
-    의류: 0.25,
-    잡화: 0.18,
-    신발: 0.14,
-    라이프스타일: 0.08,
+    화장품: 0.30,
+    의류: 0.22,
+    언더웨어: 0.12,
+    잡화: 0.15,
+    신발: 0.12,
+    라이프스타일: 0.06,
+    주얼리: 0.03,         // 고가, 거래 빈도 낮음
 };
 
 // 결정론적 슈도 랜덤 (빌드 안정)
@@ -60,7 +62,7 @@ function locationsFor(type: TrackingType): { from: TrackingLocation; to: Trackin
         case "inbound":
             return { from: "VENDOR", to: "WH-1" };
         case "outbound": {
-            const sections: TrackingLocation[] = ["1F-A", "1F-B", "2F-A", "2F-B", "3F-A"];
+            const sections: TrackingLocation[] = ["1F-A", "1F-B", "1F-C", "2F-A", "2F-B", "2F-C", "3F-A"];
             return {
                 from: det() < 0.7 ? "WH-1" : "WH-2",
                 to: sections[Math.floor(det() * sections.length)],
@@ -69,7 +71,7 @@ function locationsFor(type: TrackingType): { from: TrackingLocation; to: Trackin
         case "transfer":
             return { from: "WH-1", to: "WH-2" };
         case "return": {
-            const sections: TrackingLocation[] = ["1F-A", "1F-B", "2F-A", "2F-B", "3F-A"];
+            const sections: TrackingLocation[] = ["1F-A", "1F-B", "1F-C", "2F-A", "2F-B", "2F-C", "3F-A"];
             return {
                 from: sections[Math.floor(det() * sections.length)],
                 to: "WH-1",

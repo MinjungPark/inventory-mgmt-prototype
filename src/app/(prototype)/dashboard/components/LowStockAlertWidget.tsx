@@ -9,6 +9,7 @@ import Link from "next/link";
 import { AlertTriangle, ArrowRight } from "lucide-react";
 import { STOCK_ALERTS } from "@/data/seed";
 import type { AlertSeverity } from "@/types/inventory";
+import InfoHint from "@/components/ui/InfoHint";
 
 const SEVERITY_STYLE: Record<AlertSeverity, { bg: string; text: string; border: string; label: string }> = {
     critical: {
@@ -32,14 +33,17 @@ const SEVERITY_STYLE: Record<AlertSeverity, { bg: string; text: string; border: 
 };
 
 export default function LowStockAlertWidget() {
-    const top5 = STOCK_ALERTS
+    const top10 = STOCK_ALERTS
         .filter((a) => a.status === "new")
         .sort((a, b) => {
-            // critical 먼저, 그 다음 warning
+            // critical 먼저, 그 다음 warning, 같으면 가장 부족한 (current/threshold ratio 낮은) 순
             const order = { critical: 0, warning: 1, ok: 2 };
-            return order[a.severity] - order[b.severity];
+            const sev = order[a.severity] - order[b.severity];
+            if (sev !== 0) return sev;
+            return (a.currentQuantity / a.thresholdQuantity) -
+                   (b.currentQuantity / b.thresholdQuantity);
         })
-        .slice(0, 5);
+        .slice(0, 10);
 
     return (
         <div className="bg-white border border-[#e2e8f0] rounded-md p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col">
@@ -47,11 +51,16 @@ export default function LowStockAlertWidget() {
                 <div className="flex items-center gap-2">
                     <AlertTriangle size={16} strokeWidth={2} className="text-[#d32f2f]" />
                     <div className="flex flex-col leading-tight">
-                        <h3 className="text-[14px] font-semibold text-[#1a1a1a]">
-                            안전 재고 알림
-                        </h3>
+                        <div className="flex items-center gap-1.5">
+                            <h3 className="text-[14px] font-semibold text-[#1a1a1a]">
+                                안전 재고 알림
+                            </h3>
+                            <InfoHint
+                                text="설정한 알림 기준 수량보다 매장 재고가 부족한 SKU. 심각도는 현재 수량 ÷ 기준 수량 비율로 자동 분류 — 30% 이하 긴급(적색), 30~70% 주의(황색), 70% 초과 정상(녹색)."
+                            />
+                        </div>
                         <span className="text-[12px] text-[#718096] mt-0.5">
-                            기준 수량 미달 상위 5건
+                            기준 수량 미달 상위 10건
                         </span>
                     </div>
                 </div>
@@ -65,7 +74,7 @@ export default function LowStockAlertWidget() {
             </div>
 
             <div className="divide-y divide-[#f1f5f9] -mx-2">
-                {top5.map((a) => {
+                {top10.map((a) => {
                     const sev = SEVERITY_STYLE[a.severity];
                     const ratio = Math.round((a.currentQuantity / a.thresholdQuantity) * 100);
                     return (

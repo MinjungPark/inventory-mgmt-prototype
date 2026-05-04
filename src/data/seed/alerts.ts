@@ -24,9 +24,9 @@ interface AlertSpec {
 }
 
 const SPECS: AlertSpec[] = [
-    { severity: "critical", status: "new",          count: 5,  ratioMin: 0.05, ratioMax: 0.28 },
-    { severity: "warning",  status: "new",          count: 12, ratioMin: 0.32, ratioMax: 0.68 },
-    { severity: "warning",  status: "acknowledged", count: 6,  ratioMin: 0.40, ratioMax: 0.65 },
+    { severity: "critical", status: "new",          count: 7,  ratioMin: 0.03, ratioMax: 0.28 },
+    { severity: "warning",  status: "new",          count: 16, ratioMin: 0.32, ratioMax: 0.68 },
+    { severity: "warning",  status: "acknowledged", count: 7,  ratioMin: 0.40, ratioMax: 0.65 },
 ];
 
 function generate(): StockAlert[] {

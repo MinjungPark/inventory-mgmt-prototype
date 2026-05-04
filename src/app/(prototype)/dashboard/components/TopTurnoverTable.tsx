@@ -7,6 +7,7 @@
 
 import { TrendingUp } from "lucide-react";
 import { SKUS } from "@/data/seed";
+import InfoHint from "@/components/ui/InfoHint";
 
 export default function TopTurnoverTable() {
     const top10 = [...SKUS]
@@ -19,9 +20,14 @@ export default function TopTurnoverTable() {
                 <div className="flex items-center gap-2">
                     <TrendingUp size={16} strokeWidth={2} className="text-[#0d47a1]" />
                     <div className="flex flex-col leading-tight">
-                        <h3 className="text-[14px] font-semibold text-[#1a1a1a]">
-                            TOP 회전율 SKU
-                        </h3>
+                        <div className="flex items-center gap-1.5">
+                            <h3 className="text-[14px] font-semibold text-[#1a1a1a]">
+                                TOP 회전율 SKU
+                            </h3>
+                            <InfoHint
+                                text="개별 SKU의 월평균 회전율 상위 10개. 회전율 = 매출 수량 ÷ 평균 재고. 이 품목들은 발주 빈도를 늘려 결품을 방지해야 하는 핵심 SKU입니다."
+                            />
+                        </div>
                         <span className="text-[12px] text-[#718096] mt-0.5">
                             월평균 회전율 상위 10건 (회/월)
                         </span>

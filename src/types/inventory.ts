@@ -5,7 +5,14 @@
 
 // ─── 매장 섹션 ───────────────────────────────────────────────────────────────
 
-export type StoreSectionId = "1F-A" | "1F-B" | "2F-A" | "2F-B" | "3F-A";
+export type StoreSectionId =
+    | "1F-A"
+    | "1F-B"
+    | "1F-C"
+    | "2F-A"
+    | "2F-B"
+    | "2F-C"
+    | "3F-A";
 export type StockLevel = "sufficient" | "warning" | "shortage";
 
 export interface StoreZone {
@@ -46,8 +53,10 @@ export interface Warehouse {
 export type ProductCategory =
     | "의류"
     | "신발"
+    | "언더웨어"
     | "잡화"
     | "화장품"
+    | "주얼리"
     | "라이프스타일";
 
 export interface Sku {

@@ -28,9 +28,11 @@ import { CHART_BLUE_SCALE, CHART_GRID_STROKE, CHART_TICK } from "@/components/ui
 const CATEGORY_ORDER: ProductCategory[] = [
     "화장품",
     "의류",
+    "언더웨어",
     "잡화",
     "신발",
     "라이프스타일",
+    "주얼리",
 ];
 
 export default function CategoryTurnoverBar() {
@@ -52,7 +54,7 @@ export default function CategoryTurnoverBar() {
             <BarChart
                 data={data}
                 layout="vertical"
-                margin={{ top: 5, right: 40, left: 8, bottom: 5 }}
+                margin={{ top: 5, right: 48, left: 8, bottom: 5 }}
             >
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} horizontal={false} />
                 <XAxis
@@ -69,13 +71,18 @@ export default function CategoryTurnoverBar() {
                     tick={{ ...CHART_TICK, fontSize: 12, fontWeight: 500 }}
                     axisLine={false}
                     tickLine={false}
-                    width={88}
+                    width={92}
                 />
                 <Tooltip
                     cursor={{ fill: "rgba(13,71,161,0.05)" }}
                     content={<ChartTooltip unit="회/월" />}
                 />
-                <Bar dataKey="value" name="평균 회전율" radius={[0, 4, 4, 0]} maxBarSize={28}>
+                <Bar
+                    dataKey="value"
+                    name="평균 회전율"
+                    radius={[0, 4, 4, 0]}
+                    maxBarSize={14}
+                >
                     {data.map((_, idx) => (
                         <Cell
                             key={idx}

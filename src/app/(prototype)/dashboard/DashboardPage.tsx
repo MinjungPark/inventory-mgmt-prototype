@@ -108,7 +108,8 @@ export default function DashboardPage() {
                 <ChartCard
                     Icon={PieChart}
                     title="매장 섹션별 재고 분포"
-                    subtitle="5섹션 SKU 비중"
+                    subtitle="7섹션 SKU 비중"
+                    info="플래그십 매장 7개 섹션의 SKU 수 비중. 화장품(2F-B)과 의류(1F-A)가 가장 많은 SKU를 차지하는 일반 매장 패턴입니다."
                     height={280}
                 >
                     <SectionDistributionDonut />
@@ -118,6 +119,7 @@ export default function DashboardPage() {
                     Icon={BarChart3}
                     title="창고별 보유 재고"
                     subtitle="3창고 SKU 보유량"
+                    info="본사 창고·매장 백창고·외부 위탁 창고의 보유 SKU 수. 본사 창고가 마스터 재고, 매장 백창고는 즉시 보충용, 외부 위탁은 시즌 비축용입니다."
                     height={280}
                 >
                     <WarehouseStockBar />
@@ -127,6 +129,7 @@ export default function DashboardPage() {
                     Icon={LineChart}
                     title="입출고 추이"
                     subtitle="최근 30일 일별 합계"
+                    info="일별 입고 수량과 출고 수량의 추이. 평일 평균 150건, 주말 평균 200건 패턴이 자연스럽게 드러납니다."
                     height={280}
                 >
                     <DailyTrackingLine />
@@ -138,7 +141,8 @@ export default function DashboardPage() {
                 <ChartCard
                     Icon={Activity}
                     title="카테고리별 재고 회전율"
-                    subtitle="5 카테고리 월평균 (회/월)"
+                    subtitle="7 카테고리 월평균 (회/월)"
+                    info="재고 회전율 = 매출 수량 ÷ 평균 재고 수량. 한 달에 평균 재고가 몇 번 다 팔리고 다시 채워졌는지를 나타냅니다. 높을수록 빠르게 팔리는 카테고리, 낮을수록 천천히 팔립니다."
                     height={300}
                 >
                     <CategoryTurnoverBar />
@@ -148,6 +152,7 @@ export default function DashboardPage() {
                     Icon={Radar}
                     title="자주 알림 발생 SKU TOP 5"
                     subtitle="안전 재고 미달 빈도"
+                    info="안전 재고 알림이 가장 자주 발생한 SKU 상위 5개. 이 품목들은 발주 정책 재검토 또는 안전 재고 기준 상향이 필요한 후보입니다."
                     height={300}
                 >
                     <FrequentAlertSkuRadar />
@@ -157,6 +162,7 @@ export default function DashboardPage() {
                     Icon={BarChart3}
                     title="일별 입고 vs 출고"
                     subtitle="최근 7일"
+                    info="최근 7일 일별 입고 건수와 출고 건수. 출고가 입고를 크게 앞서면 재고 소진, 입고만 많으면 재고 누적 — 균형 모니터링용 차트입니다."
                     height={300}
                 >
                     <WeeklyInOutStack />

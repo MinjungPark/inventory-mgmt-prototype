@@ -18,6 +18,10 @@ const BASE_ITEMS: Record<ProductCategory, string[]> = {
         "스니커즈", "로퍼", "첼시 부츠", "펌프스", "샌들",
         "옥스포드", "슬립온", "스포츠 슈즈", "앵클 부츠", "모카신",
     ],
+    언더웨어: [
+        "코튼 브라", "와이어 브라", "스포츠 브라", "팬티", "심리스 팬티",
+        "힙업 팬티", "이너 캐미솔", "슬립", "보정 속옷", "잠옷 세트",
+    ],
     잡화: [
         "토트백", "크로스백", "백팩", "클러치", "지갑",
         "벨트", "스카프", "모자", "선글라스", "장갑",
@@ -27,6 +31,11 @@ const BASE_ITEMS: Record<ProductCategory, string[]> = {
         "수분 크림", "선크림", "토너", "에센스", "립스틱",
         "쿠션 파운데이션", "마스카라", "아이섀도 팔레트", "아이라이너", "블러셔",
         "클렌징 폼", "마스크 시트", "향수", "바디 로션", "샴푸",
+    ],
+    주얼리: [
+        "골드 목걸이", "실버 목걸이", "펜던트 목걸이", "골드 귀걸이", "진주 귀걸이",
+        "스터드 귀걸이", "골드 반지", "실버 반지", "커플 반지", "팔찌",
+        "체인 팔찌", "발찌",
     ],
     라이프스타일: [
         "디퓨저", "캔들", "머그컵", "노트", "펜 세트",
@@ -41,8 +50,10 @@ const SIZES_SHOES = ["240", "250", "260", "270"];
 const CATEGORY_PREFIX: Record<ProductCategory, string> = {
     의류: "CL",
     신발: "SH",
+    언더웨어: "UW",
     잡화: "AC",
     화장품: "CO",
+    주얼리: "JW",
     라이프스타일: "LS",
 };
 
@@ -50,15 +61,20 @@ const CATEGORY_PREFIX: Record<ProductCategory, string> = {
 
 function priceFor(category: ProductCategory): number {
     const ranges: Record<ProductCategory, [number, number]> = {
-        의류:        [ 38_000,  280_000],
-        신발:        [ 49_000,  220_000],
-        잡화:        [ 18_000,  150_000],
-        화장품:      [ 12_000,   85_000],
-        라이프스타일: [  8_000,   65_000],
+        의류:         [ 38_000,  280_000],
+        신발:         [ 49_000,  220_000],
+        언더웨어:      [  8_000,   55_000],
+        잡화:         [ 18_000,  150_000],
+        화장품:       [ 12_000,   85_000],
+        주얼리:       [ 50_000,  800_000],
+        라이프스타일:  [  8_000,   65_000],
     };
     const [min, max] = ranges[category];
     return Math.round((min + Math.random() * (max - min)) / 1000) * 1000;
 }
+
+const SIZES_UNDERWEAR = ["75A", "80A", "80B", "85B", "85C"];
+const JEWELRY_MATERIALS = ["14K", "18K", "925 Silver", "Pt950"];
 
 function variantFor(category: ProductCategory, base: string): string {
     if (category === "의류") {
@@ -71,9 +87,18 @@ function variantFor(category: ProductCategory, base: string): string {
         const s = SIZES_SHOES[Math.floor(Math.random() * SIZES_SHOES.length)];
         return `${base} - ${c} - ${s}mm`;
     }
+    if (category === "언더웨어") {
+        const c = COLORS[Math.floor(Math.random() * COLORS.length)];
+        const s = SIZES_UNDERWEAR[Math.floor(Math.random() * SIZES_UNDERWEAR.length)];
+        return `${base} - ${c} - ${s}`;
+    }
     if (category === "잡화") {
         const c = COLORS[Math.floor(Math.random() * COLORS.length)];
         return `${base} - ${c}`;
+    }
+    if (category === "주얼리") {
+        const m = JEWELRY_MATERIALS[Math.floor(Math.random() * JEWELRY_MATERIALS.length)];
+        return `${base} - ${m}`;
     }
     return base;
 }
@@ -81,8 +106,10 @@ function variantFor(category: ProductCategory, base: string): string {
 const SECTION_BY_CATEGORY: Record<ProductCategory, StoreSectionId> = {
     의류: "1F-A",
     신발: "1F-B",
+    언더웨어: "1F-C",
     잡화: "2F-A",
     화장품: "2F-B",
+    주얼리: "2F-C",
     라이프스타일: "3F-A",
 };
 
@@ -122,9 +149,11 @@ function generateSkusForCategory(category: ProductCategory, count: number): Sku[
         const categoryAvg: Record<string, number> = {
             "화장품": 5.6,
             "의류": 4.5,
+            "언더웨어": 4.0,
             "잡화": 3.5,
             "신발": 3.0,
             "라이프스타일": 2.4,
+            "주얼리": 1.8,           // 고가, 천천히 회전
         };
         const turnoverBase = categoryAvg[category] ?? 3.5;
         const noise = (det() - 0.5) * 3.0;                    // ±1.5 자연 노이즈
@@ -159,8 +188,10 @@ function generateSkusForCategory(category: ProductCategory, count: number): Sku[
 export const SKUS: Sku[] = [
     ...generateSkusForCategory("의류", 50),
     ...generateSkusForCategory("신발", 35),
+    ...generateSkusForCategory("언더웨어", 30),
     ...generateSkusForCategory("잡화", 40),
     ...generateSkusForCategory("화장품", 50),
+    ...generateSkusForCategory("주얼리", 25),
     ...generateSkusForCategory("라이프스타일", 30),
 ];
 
