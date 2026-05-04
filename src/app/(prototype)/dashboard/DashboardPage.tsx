@@ -138,7 +138,7 @@ export default function DashboardPage() {
                 <ChartCard
                     Icon={Activity}
                     title="카테고리별 재고 회전율"
-                    subtitle="5 카테고리 평균 (일평균)"
+                    subtitle="5 카테고리 월평균 (회/월)"
                     height={300}
                 >
                     <CategoryTurnoverBar />

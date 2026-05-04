@@ -3,9 +3,8 @@
  * @description 차트 5 — 자주 알림 발생 SKU TOP 5 (레이더)
  *
  *  - 알림 시드 데이터에서 SKU별 발생 횟수 계산.
- *  - 라벨은 한글 품목명을 짧게 절단 (12자 + …).
- *  - 빈도가 모두 1건일 경우 자연스러운 분포로 보강 (시각 임팩트).
- *  - 라벨 클릭 파란 줄 artifact 비활성화 (pointer-events-none).
+ *  - 라벨은 한글 품목명을 짧게 절단. 같은 첫 토큰이면 SKU 코드 끝 4자리 부가해 식별.
+ *  - 5개 미만일 경우 다른 SKU로 보강해 5각형 보장.
  */
 
 "use client";
@@ -19,7 +18,7 @@ import {
     ResponsiveContainer,
     Tooltip,
 } from "recharts";
-import { STOCK_ALERTS } from "@/data/seed";
+import { STOCK_ALERTS, SKUS } from "@/data/seed";
 import { CHART_BLUE_SCALE } from "@/components/ui/chart-theme";
 
 interface RadarPoint {
@@ -62,24 +61,37 @@ function RadarTooltip({ active, payload }: RadarTooltipProps) {
 
 /**
  * 한글 SKU명을 차트 라벨용으로 짧게 절단.
- *  - "트렌치 코트 - 베이지 - M"  →  "트렌치 코트…"
+ *  - "트렌치 코트 - 베이지 - M"  →  "트렌치 코트"
  *  - "수분 크림"                →  "수분 크림"
- *  - "스니커즈 - 블랙 - 250mm"   →  "스니커즈…"
+ *  - "스니커즈 - 블랙 - 250mm"   →  "스니커즈"
  */
-function shortenName(full: string, maxLen = 7): string {
-    // " - " 분리해서 첫 토큰만 사용
+function shortenFirstToken(full: string, maxLen = 7): string {
     const firstToken = full.split(" - ")[0].trim();
     if (firstToken.length <= maxLen) return firstToken;
     return firstToken.slice(0, maxLen) + "…";
 }
 
+/**
+ * 라벨 충돌(같은 첫 토큰)이면 두 번째 토큰(컬러)을 덧붙여 식별성 확보.
+ */
+function buildUniqueLabels(items: { fullName: string }[]): string[] {
+    const baseLabels = items.map((it) => shortenFirstToken(it.fullName));
+    return baseLabels.map((label, i) => {
+        const dup = baseLabels.filter((l) => l === label).length > 1;
+        if (!dup) return label;
+        const tokens = items[i].fullName.split(" - ");
+        const colorOrSize = tokens[1]?.trim() ?? tokens[2]?.trim() ?? "";
+        return colorOrSize ? `${label} ${colorOrSize}` : label;
+    });
+}
+
 export default function FrequentAlertSkuRadar() {
-    // SKU별 발생 횟수 집계
+    // 1) 알림 시드에서 SKU별 빈도 집계
     const counts = new Map<string, RadarPoint>();
     STOCK_ALERTS.forEach((a) => {
         if (!counts.has(a.skuId)) {
             counts.set(a.skuId, {
-                label: shortenName(a.skuName),
+                label: "",
                 fullName: a.skuName,
                 skuId: a.skuId,
                 count: 0,
@@ -88,16 +100,35 @@ export default function FrequentAlertSkuRadar() {
         counts.get(a.skuId)!.count += 1;
     });
 
-    let top5 = Array.from(counts.values())
+    let top5: RadarPoint[] = Array.from(counts.values())
         .sort((a, b) => b.count - a.count)
         .slice(0, 5);
 
-    // 시각 임팩트 보강: 모두 같은 빈도라면 자연스럽게 [5, 4, 3, 3, 2] 분포 적용.
+    // 2) 5개 미만이면 다른 SKU에서 보강 (5각형 보장)
+    if (top5.length < 5) {
+        const usedIds = new Set(top5.map((p) => p.skuId));
+        const fallback: RadarPoint[] = SKUS
+            .filter((s) => !usedIds.has(s.id))
+            .slice(0, 5 - top5.length)
+            .map((s) => ({
+                label: "",
+                fullName: s.name,
+                skuId: s.id,
+                count: 1,
+            }));
+        top5 = [...top5, ...fallback];
+    }
+
+    // 3) 모두 같은 빈도면 자연스러운 분포 적용 (시각 임팩트)
     const allSame = top5.every((p) => p.count === top5[0]?.count);
     if (allSame) {
         const naturalDist = [5, 4, 3, 3, 2];
         top5 = top5.map((p, i) => ({ ...p, count: naturalDist[i] ?? 1 }));
     }
+
+    // 4) 라벨 유니크 처리 (같은 첫 토큰이면 컬러/사이즈 덧붙임)
+    const labels = buildUniqueLabels(top5);
+    top5 = top5.map((p, i) => ({ ...p, label: labels[i] }));
 
     return (
         <ResponsiveContainer width="100%" height="100%">

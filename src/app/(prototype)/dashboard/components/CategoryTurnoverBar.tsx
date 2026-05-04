@@ -73,7 +73,7 @@ export default function CategoryTurnoverBar() {
                 />
                 <Tooltip
                     cursor={{ fill: "rgba(13,71,161,0.05)" }}
-                    content={<ChartTooltip unit="회/일" />}
+                    content={<ChartTooltip unit="회/월" />}
                 />
                 <Bar dataKey="value" name="평균 회전율" radius={[0, 4, 4, 0]} maxBarSize={28}>
                     {data.map((_, idx) => (

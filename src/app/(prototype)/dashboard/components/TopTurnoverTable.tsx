@@ -23,7 +23,7 @@ export default function TopTurnoverTable() {
                             TOP 회전율 SKU
                         </h3>
                         <span className="text-[12px] text-[#718096] mt-0.5">
-                            일평균 회전율 상위 10건
+                            월평균 회전율 상위 10건 (회/월)
                         </span>
                     </div>
                 </div>

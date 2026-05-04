@@ -61,7 +61,7 @@ export interface Sku {
     unitPriceKRW: number;
     threshold: number;
     lastRestockedAt: string; // ISO 8601
-    turnoverRate: number;    // 일평균 회전율
+    turnoverRate: number;    // 월평균 회전율 (회/월) — 매출수량 ÷ 평균재고
 }
 
 // ─── 입출고 트래킹 ──────────────────────────────────────────────────────────
