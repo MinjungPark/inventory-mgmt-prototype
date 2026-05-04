@@ -70,11 +70,11 @@ export default function DashboardPage() {
                     unit="개"
                     Icon={Boxes}
                     infoTitle="SKU (Stock Keeping Unit)"
-                    infoDefinition="재고 관리의 가장 작은 식별 단위."
+                    infoDefinition="재고 관리에서 사용되는 가장 작은 식별 단위입니다."
                     infoBullets={[
-                        "같은 품목이라도 색상·사이즈 변형은 각각 다른 SKU",
-                        "예: '트렌치 코트 베이지 M' / '트렌치 코트 네이비 L' = 2 SKU",
-                        "본 KPI는 매장·창고 전체에 등록된 활성 SKU 수",
+                        "동일 품목이라도 색상·사이즈 변형은 각각 별도 SKU로 관리됩니다.",
+                        "예시: '트렌치 코트 베이지 M' 과 '트렌치 코트 네이비 L' 은 2개의 SKU에 해당합니다.",
+                        "본 KPI는 매장·창고 전체에 등록된 활성 SKU의 총합을 의미합니다.",
                     ]}
                     trend={{ value: 2.4, direction: "up", label: "전월 대비" }}
                 />
@@ -100,11 +100,11 @@ export default function DashboardPage() {
                     Icon={AlertCircle}
                     tone="critical"
                     infoTitle="안전 재고 알림"
-                    infoDefinition="설정한 알림 기준 수량보다 매장 재고가 부족한 SKU 수."
+                    infoDefinition="설정된 알림 기준 수량보다 매장 재고가 부족한 SKU의 건수입니다."
                     infoBullets={[
-                        "심각도는 현재 ÷ 기준 비율로 자동 분류",
-                        "긴급(적색) 30% 이하 / 주의(황색) 30~70% / 정상(녹색) 70% 초과",
-                        "기준 수량은 '재고 알림 설정' 메뉴에서 SKU별·카테고리별 조정",
+                        "심각도는 현재 수량을 기준 수량으로 나눈 비율로 자동 분류됩니다.",
+                        "긴급(적색) 30% 이하 · 주의(황색) 30~70% · 정상(녹색) 70% 초과 기준이 적용됩니다.",
+                        "기준 수량은 '재고 알림 설정' 메뉴에서 SKU별 또는 카테고리 일괄로 조정 가능합니다.",
                     ]}
                     trend={{ value: 12, direction: "up", label: "전일 대비" }}
                 />
@@ -123,7 +123,7 @@ export default function DashboardPage() {
                     Icon={PieChart}
                     title="매장 섹션별 재고 분포"
                     subtitle="7섹션 SKU 비중"
-                    info="플래그십 매장 7개 섹션의 SKU 수 비중. 화장품(2F-B)과 의류(1F-A)가 가장 많은 SKU를 차지하는 일반 매장 패턴입니다."
+                    info="플래그십 매장 7개 섹션의 SKU 수 비중을 나타냅니다. 화장품(2F-B)과 의류(1F-A)가 다수 SKU를 보유하는 일반적인 매장 운영 패턴입니다."
                     height={280}
                 >
                     <SectionDistributionDonut />
@@ -133,7 +133,7 @@ export default function DashboardPage() {
                     Icon={BarChart3}
                     title="창고별 보유 재고"
                     subtitle="3창고 SKU 보유량"
-                    info="본사 창고·매장 백창고·외부 위탁 창고의 보유 SKU 수. 본사 창고가 마스터 재고, 매장 백창고는 즉시 보충용, 외부 위탁은 시즌 비축용입니다."
+                    info="본사 창고·매장 백창고·외부 위탁 창고별 보유 SKU 수를 나타냅니다. 본사 창고는 마스터 재고, 매장 백창고는 즉시 보충용, 외부 위탁은 시즌 비축용으로 운영됩니다."
                     height={280}
                 >
                     <WarehouseStockBar />
@@ -143,7 +143,7 @@ export default function DashboardPage() {
                     Icon={LineChart}
                     title="입출고 추이"
                     subtitle="최근 30일 일별 합계"
-                    info="일별 입고 수량과 출고 수량의 추이. 평일 평균 150건, 주말 평균 200건 패턴이 자연스럽게 드러납니다."
+                    info="최근 30일간 일별 입고 수량과 출고 수량 추이를 표시합니다. 평일 평균 150건, 주말 평균 200건 수준의 운영 패턴이 관찰됩니다."
                     height={280}
                 >
                     <DailyTrackingLine />
@@ -157,11 +157,11 @@ export default function DashboardPage() {
                     title="카테고리별 재고 회전율"
                     subtitle="7 카테고리 월평균 (회/월)"
                     infoTitle="재고 회전율 (Inventory Turnover)"
-                    infoDefinition="매출 수량 ÷ 평균 재고 수량. 한 달에 재고가 몇 번 도는지."
+                    infoDefinition="월간 매출 수량을 평균 재고 수량으로 나눈 값으로, 평균 재고가 한 달에 몇 회 회전하는지를 나타내는 지표입니다."
                     infoBullets={[
-                        "높음 → 빠르게 팔림. 발주 빈도 ↑, 결품 방지가 핵심",
-                        "낮음 → 천천히 팔림. 발주 ↓, 할인·회수 검토 필요",
-                        "예: 화장품 5.7회/월 = 평균 재고가 약 5일에 한 번 비고 재발주",
+                        "높을수록 빠르게 판매되는 카테고리이며, 발주 빈도 상향과 결품 방지가 핵심 과제입니다.",
+                        "낮을수록 회전이 더디므로 발주량 축소 또는 할인·회수 정책 검토가 필요합니다.",
+                        "예시: 화장품 5.7회/월은 평균 재고가 약 5일 주기로 소진·재발주됨을 의미합니다.",
                     ]}
                     height={300}
                 >
@@ -173,11 +173,11 @@ export default function DashboardPage() {
                     title="자주 알림 발생 SKU TOP 5"
                     subtitle="안전 재고 미달 빈도"
                     infoTitle="자주 알림 발생 SKU"
-                    infoDefinition="최근 안전 재고 알림이 가장 자주 발생한 SKU 상위 5개."
+                    infoDefinition="최근 안전 재고 알림이 가장 빈번하게 발생한 SKU 상위 5개를 표시합니다."
                     infoBullets={[
-                        "SKU = 재고 관리의 가장 작은 식별 단위 (예: 트렌치 코트 베이지 M)",
-                        "발주 정책 재검토가 필요한 후보군",
-                        "또는 안전 재고 기준 수량을 상향해야 하는 후보군",
+                        "SKU는 재고 관리의 가장 작은 식별 단위를 의미합니다 (예: 트렌치 코트 베이지 M).",
+                        "반복적 알림 발생은 발주 정책 재검토 대상 SKU의 신호입니다.",
+                        "또는 안전 재고 기준 수량을 상향 조정해야 하는 후보군에 해당합니다.",
                     ]}
                     height={300}
                 >
@@ -188,7 +188,7 @@ export default function DashboardPage() {
                     Icon={BarChart3}
                     title="일별 입고 vs 출고"
                     subtitle="최근 7일"
-                    info="최근 7일 일별 입고 건수와 출고 건수. 출고가 입고를 크게 앞서면 재고 소진, 입고만 많으면 재고 누적 — 균형 모니터링용 차트입니다."
+                    info="최근 7일간 일별 입고 건수와 출고 건수를 비교합니다. 출고가 입고를 크게 앞서면 재고 소진 신호이며, 입고만 누적될 경우 재고 적체 위험이 있어 균형 모니터링이 필요합니다."
                     height={300}
                 >
                     <WeeklyInOutStack />
