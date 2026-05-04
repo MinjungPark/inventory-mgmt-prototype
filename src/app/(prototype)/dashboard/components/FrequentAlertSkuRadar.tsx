@@ -36,11 +36,11 @@ export default function FrequentAlertSkuRadar() {
                 <PolarGrid stroke="#e0e0e0" />
                 <PolarAngleAxis
                     dataKey="name"
-                    tick={{ fill: "#4a5568", fontSize: 10 }}
+                    tick={{ fill: "#4a5568", fontSize: 11 }}
                 />
                 <PolarRadiusAxis
                     angle={30}
-                    tick={{ fill: "#94a3b8", fontSize: 10 }}
+                    tick={{ fill: "#94a3b8", fontSize: 11 }}
                     axisLine={false}
                 />
                 <Radar

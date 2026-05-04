@@ -84,10 +84,10 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                                 sidebarOpen ? "opacity-100" : "opacity-0 hidden"
                             }`}
                         >
-                            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#718096]">
+                            <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[#718096]">
                                 Prototype
                             </span>
-                            <span className="text-[13px] font-semibold text-[#1a1a1a] tracking-tight">
+                            <span className="text-[14px] font-semibold text-[#1a1a1a] tracking-tight">
                                 Inventory Operations Mgmt.
                             </span>
                         </div>
@@ -100,8 +100,8 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                         sidebarOpen ? "opacity-100" : "opacity-0 hidden"
                     }`}
                 >
-                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#718096]">
-                        <KeyRound size={12} strokeWidth={2.2} className="text-[#0d47a1]" />
+                    <div className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#718096]">
+                        <KeyRound size={13} strokeWidth={2.2} className="text-[#0d47a1]" />
                         <span className="text-[#4a5568]">플래그십 매장 운영</span>
                     </div>
                 </div>
@@ -124,7 +124,7 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                                 }`}
                             >
                                 <Icon
-                                    size={16}
+                                    size={17}
                                     strokeWidth={isActive ? 2.2 : 1.8}
                                     className={`shrink-0 ${
                                         isActive
@@ -133,7 +133,7 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                                     }`}
                                 />
                                 <span
-                                    className={`whitespace-nowrap text-[13px] transition-opacity duration-300 ${
+                                    className={`whitespace-nowrap text-[14px] transition-opacity duration-300 ${
                                         sidebarOpen ? "opacity-100" : "opacity-0 hidden"
                                     }`}
                                 >
@@ -152,7 +152,7 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                             sidebarOpen ? "opacity-100" : "opacity-0 hidden"
                         }`}
                     >
-                        <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8] px-1">
+                        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8] px-1">
                             Documentation
                         </div>
                     </div>
@@ -172,7 +172,7 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                                 }`}
                             >
                                 <Icon
-                                    size={16}
+                                    size={17}
                                     strokeWidth={isActive ? 2.2 : 1.8}
                                     className={`shrink-0 ${
                                         isActive
@@ -181,7 +181,7 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                                     }`}
                                 />
                                 <span
-                                    className={`whitespace-nowrap text-[13px] transition-opacity duration-300 ${
+                                    className={`whitespace-nowrap text-[14px] transition-opacity duration-300 ${
                                         sidebarOpen ? "opacity-100" : "opacity-0 hidden"
                                     }`}
                                 >
@@ -220,8 +220,8 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                 {/* 상단 헤더 */}
                 <header className="sticky top-0 z-30 h-16 bg-white/85 backdrop-blur-md border-b border-[#e2e8f0] px-6 md:px-8 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <span className="text-[#cbd5e1] text-[15px]">/</span>
-                        <h2 className="text-[14px] md:text-[15px] font-semibold text-[#1a1a1a]">
+                        <span className="text-[#cbd5e1] text-[16px]">/</span>
+                        <h2 className="text-[15px] md:text-[16px] font-semibold text-[#1a1a1a]">
                             {activeLabel}
                         </h2>
                     </div>
@@ -231,7 +231,7 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                         {/* 언어 토글 */}
                         <button
                             type="button"
-                            className="hidden md:flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e2e8f0] bg-white text-[12px] font-medium text-[#4a5568] hover:bg-[#f8fafc] hover:text-[#1a1a1a] hover:border-[#cbd5e1] transition-colors"
+                            className="hidden md:flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#e2e8f0] bg-white text-[13px] font-medium text-[#4a5568] hover:bg-[#f8fafc] hover:text-[#1a1a1a] hover:border-[#cbd5e1] transition-colors"
                         >
                             <span>한국어</span>
                             <ChevronDown size={12} strokeWidth={2} className="text-[#94a3b8]" />
@@ -240,7 +240,7 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                         {/* 통화 토글 */}
                         <button
                             type="button"
-                            className="hidden md:flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e2e8f0] bg-white text-[12px] font-medium text-[#4a5568] hover:bg-[#f8fafc] hover:text-[#1a1a1a] hover:border-[#cbd5e1] transition-colors"
+                            className="hidden md:flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#e2e8f0] bg-white text-[13px] font-medium text-[#4a5568] hover:bg-[#f8fafc] hover:text-[#1a1a1a] hover:border-[#cbd5e1] transition-colors"
                         >
                             <span>KRW</span>
                             <ChevronDown size={12} strokeWidth={2} className="text-[#94a3b8]" />
@@ -251,16 +251,16 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                         {/* 사용자 영역 */}
                         <button
                             type="button"
-                            className="flex items-center gap-2.5 h-8 pr-2 pl-1 rounded-md hover:bg-[#f8fafc] transition-colors"
+                            className="flex items-center gap-2.5 h-9 pr-2 pl-1 rounded-md hover:bg-[#f8fafc] transition-colors"
                         >
-                            <span className="w-7 h-7 rounded-full bg-gradient-to-br from-[#1565c0] to-[#0d47a1] flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
+                            <span className="w-8 h-8 rounded-full bg-gradient-to-br from-[#1565c0] to-[#0d47a1] flex items-center justify-center text-[12px] font-bold text-white shadow-sm">
                                 본
                             </span>
-                            <span className="hidden md:inline text-[12px] font-semibold text-[#1a1a1a]">
+                            <span className="hidden md:inline text-[13px] font-semibold text-[#1a1a1a]">
                                 본사 관리자
                             </span>
                             <ChevronDown
-                                size={12}
+                                size={13}
                                 strokeWidth={2}
                                 className="hidden md:inline text-[#94a3b8]"
                             />

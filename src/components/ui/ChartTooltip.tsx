@@ -35,7 +35,7 @@ export default function ChartTooltip({
     return (
         <div className="bg-white border border-[#e0e0e0] rounded-md px-3 py-2 shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
             {label != null && (
-                <p className="text-[11px] font-semibold text-[#1a1a1a] mb-1">{String(label)}</p>
+                <p className="text-[12px] font-semibold text-[#1a1a1a] mb-1">{String(label)}</p>
             )}
             <div className="space-y-0.5">
                 {payload.map((p: TooltipPayloadItem, i: number) => {
@@ -49,7 +49,7 @@ export default function ChartTooltip({
                                     ? raw.toLocaleString()
                                     : String(raw);
                     return (
-                        <div key={i} className="flex items-center gap-2 text-[11px]">
+                        <div key={i} className="flex items-center gap-2 text-[12px]">
                             <span
                                 className="w-2 h-2 rounded-sm shrink-0"
                                 style={{ background: p.color ?? "#0d47a1" }}

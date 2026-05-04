@@ -72,8 +72,8 @@ export default function WeeklyInOutStack() {
                 />
                 <Legend
                     iconType="circle"
-                    iconSize={8}
-                    wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
+                    iconSize={9}
+                    wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
                     formatter={(value) => <span className="text-[#4a5568]">{value}</span>}
                 />
                 <Bar

@@ -59,26 +59,26 @@ export default function KpiCard({
         <div className="bg-white border border-[#e2e8f0] rounded-md p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_8px_rgba(13,71,161,0.08)] hover:border-[#cbd5e1] transition-all group">
             <div className="flex items-start justify-between">
                 <div className="flex flex-col gap-1.5">
-                    <span className="text-[11px] font-medium text-[#718096]">{label}</span>
+                    <span className="text-[12px] font-medium text-[#718096]">{label}</span>
                     <div className="flex items-baseline gap-1">
-                        <span className={`text-[22px] font-bold tracking-tight ${styles.valueColor}`}>
+                        <span className={`text-[24px] font-bold tracking-tight ${styles.valueColor}`}>
                             {value}
                         </span>
                         {unit && (
-                            <span className="text-[12px] text-[#718096] font-medium">{unit}</span>
+                            <span className="text-[13px] text-[#718096] font-medium">{unit}</span>
                         )}
                     </div>
                 </div>
 
                 <div
-                    className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 ${styles.iconBg}`}
+                    className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${styles.iconBg}`}
                 >
-                    <Icon size={16} strokeWidth={2} className={styles.iconColor} />
+                    <Icon size={18} strokeWidth={2} className={styles.iconColor} />
                 </div>
             </div>
 
             {trend && (
-                <div className="mt-3 flex items-center gap-1.5 text-[11px]">
+                <div className="mt-3 flex items-center gap-1.5 text-[12px]">
                     {trend.direction === "up" ? (
                         <TrendingUp
                             size={12}

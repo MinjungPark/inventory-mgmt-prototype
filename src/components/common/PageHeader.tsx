@@ -23,22 +23,22 @@ export default function PageHeader({
         <div className="border-b border-[#e2e8f0] pb-4 mb-6 flex items-start justify-between gap-4">
             <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                    <h1 className="text-[18px] font-semibold text-[#1a1a1a] tracking-tight">
+                    <h1 className="text-[20px] font-semibold text-[#1a1a1a] tracking-tight">
                         {title}
                     </h1>
                     {rfpMapping && (
                         <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#e8f0fb] border border-[#0d47a1]/15">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-[#0d47a1]">
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-[#0d47a1]">
                                 RFP
                             </span>
-                            <span className="text-[11px] font-medium text-[#0d47a1]">
+                            <span className="text-[12px] font-medium text-[#0d47a1]">
                                 {rfpMapping}
                             </span>
                         </span>
                     )}
                 </div>
                 {subtitle && (
-                    <p className="mt-1 text-[12px] text-[#4a5568]">{subtitle}</p>
+                    <p className="mt-1 text-[13px] text-[#4a5568]">{subtitle}</p>
                 )}
             </div>
             {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}

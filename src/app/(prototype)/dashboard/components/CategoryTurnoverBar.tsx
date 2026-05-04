@@ -42,14 +42,16 @@ export default function CategoryTurnoverBar() {
                     tick={CHART_TICK}
                     axisLine={false}
                     tickLine={false}
+                    domain={[0, 10]}
+                    ticks={[0, 2, 4, 6, 8, 10]}
                 />
                 <YAxis
                     type="category"
                     dataKey="name"
-                    tick={{ ...CHART_TICK, fontSize: 10 }}
+                    tick={{ ...CHART_TICK, fontSize: 11 }}
                     axisLine={false}
                     tickLine={false}
-                    width={100}
+                    width={110}
                 />
                 <Tooltip
                     cursor={{ fill: "rgba(13,71,161,0.05)" }}

@@ -40,9 +40,9 @@ export default function SectionDistributionDonut() {
                     verticalAlign="bottom"
                     height={36}
                     iconType="circle"
-                    iconSize={8}
+                    iconSize={9}
                     formatter={(value) => (
-                        <span className="text-[11px] text-[#4a5568] ml-1">{value}</span>
+                        <span className="text-[12px] text-[#4a5568] ml-1">{value}</span>
                     )}
                 />
             </PieChart>

@@ -33,11 +33,11 @@ export default function ChartCard({
         >
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                    <Icon size={14} strokeWidth={2} className="text-[#0d47a1]" />
+                    <Icon size={16} strokeWidth={2} className="text-[#0d47a1]" />
                     <div className="flex flex-col leading-tight">
-                        <h3 className="text-[13px] font-semibold text-[#1a1a1a]">{title}</h3>
+                        <h3 className="text-[14px] font-semibold text-[#1a1a1a]">{title}</h3>
                         {subtitle && (
-                            <span className="text-[11px] text-[#718096] mt-0.5">{subtitle}</span>
+                            <span className="text-[12px] text-[#718096] mt-0.5">{subtitle}</span>
                         )}
                     </div>
                 </div>

@@ -75,14 +75,14 @@
   --chart-grid: #e0e0e0;
   --chart-axis: #cbd5e1;
 
-  /* ─── Typography ─── */
-  --font-data: 11px;
-  --font-body: 13px;
-  --font-title-sm: 12px;
-  --font-title-md: 14px;
-  --font-title-lg: 16px;
-  --font-title-xl: 18px;
-  --font-hero: 32px;
+  /* ─── Typography ─── (16인치 Retina 가독성 기준 한 톤 ↑) */
+  --font-data: 12px;
+  --font-body: 14px;
+  --font-title-sm: 13px;
+  --font-title-md: 15px;
+  --font-title-lg: 17px;
+  --font-title-xl: 19px;
+  --font-hero: 34px;
 
   /* ─── Shadow ─── */
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);

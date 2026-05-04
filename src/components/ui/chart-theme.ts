@@ -37,12 +37,12 @@ export const CHART_AXIS_STROKE = "#cbd5e1";
 
 export const CHART_TICK = {
     fill: "#718096",
-    fontSize: 11,
+    fontSize: 12,
 } as const;
 
 export const CHART_LABEL = {
     fill: "#4a5568",
-    fontSize: 12,
+    fontSize: 13,
 } as const;
 
 // ─── 카드 / 컨테이너 ────────────────────────────────────────────────────────
