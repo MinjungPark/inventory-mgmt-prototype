@@ -35,14 +35,16 @@ const TARGET_ORDER: TrackingLocation[] = [
 
 // ─── 레이아웃 상수 ─────────────────────────────────────────────────────────
 
-const VIEW_W = 880;
-const VIEW_H = 540;
-const NODE_W = 14;
-const NODE_GAP = 6;
-const PADDING_TOP = 24;
+const VIEW_W = 920;
+const VIEW_H = 560;
+const NODE_W = 10;
+const NODE_GAP = 8;
+const PADDING_TOP = 32;
 const PADDING_BOTTOM = 24;
-const LEFT_X = 160;
-const RIGHT_X = VIEW_W - 160 - NODE_W;
+const LEFT_LABEL_W = 180;
+const RIGHT_LABEL_W = 180;
+const LEFT_X = LEFT_LABEL_W;
+const RIGHT_X = VIEW_W - RIGHT_LABEL_W - NODE_W;
 
 // ─── Sankey 데이터 가공 ────────────────────────────────────────────────────
 
@@ -265,10 +267,26 @@ export default function FlowSankey() {
                     style={{ minWidth: 720 }}
                 >
                     {/* 컬럼 라벨 */}
-                    <text x={LEFT_X} y={14} fontSize={10} fontWeight={600} fill="#0d47a1" letterSpacing={0.5}>
+                    <text
+                        x={LEFT_X - 8}
+                        y={16}
+                        fontSize={11}
+                        fontWeight={700}
+                        fill="#0d47a1"
+                        letterSpacing={1}
+                        textAnchor="end"
+                    >
                         출발지
                     </text>
-                    <text x={RIGHT_X} y={14} fontSize={10} fontWeight={600} fill="#0d47a1" letterSpacing={0.5}>
+                    <text
+                        x={RIGHT_X + NODE_W + 8}
+                        y={16}
+                        fontSize={11}
+                        fontWeight={700}
+                        fill="#0d47a1"
+                        letterSpacing={1}
+                        textAnchor="start"
+                    >
                         도착지
                     </text>
 
@@ -282,7 +300,7 @@ export default function FlowSankey() {
                                 key={key}
                                 d={ribbonPath(l)}
                                 fill={TYPE_COLOR[l.type]}
-                                fillOpacity={isHover ? 0.65 : isOther ? 0.12 : 0.32}
+                                fillOpacity={isHover ? 0.85 : isOther ? 0.18 : 0.55}
                                 stroke="none"
                                 onMouseEnter={() => setHoveredKey(key)}
                                 onMouseLeave={() => setHoveredKey(null)}
@@ -296,75 +314,134 @@ export default function FlowSankey() {
                         );
                     })}
 
-                    {/* 출발지 노드 */}
-                    {sources.map((n) => (
-                        <g key={`s-${n.id}`}>
-                            <rect
-                                x={n.x}
-                                y={n.y}
-                                width={NODE_W}
-                                height={n.height}
-                                rx={2}
-                                fill="#0d47a1"
-                            />
-                            <text
-                                x={n.x - 8}
-                                y={n.y + n.height / 2}
-                                fontSize={11}
-                                fontWeight={500}
-                                fill="#1a1a1a"
-                                textAnchor="end"
-                                dominantBaseline="middle"
-                            >
-                                {n.label}
-                            </text>
-                            <text
-                                x={n.x - 8}
-                                y={n.y + n.height / 2 + 12}
-                                fontSize={10}
-                                fill="#718096"
-                                textAnchor="end"
-                                dominantBaseline="middle"
-                            >
-                                {n.totalValue.toLocaleString()}개
-                            </text>
-                        </g>
-                    ))}
+                    {/* 출발지 노드 + 라벨 */}
+                    {sources.map((n) => {
+                        const cy = n.y + n.height / 2;
+                        // 작은 노드는 라벨 한 줄(인라인), 큰 노드는 두 줄
+                        const stacked = n.height >= 30;
+                        return (
+                            <g key={`s-${n.id}`}>
+                                <rect
+                                    x={n.x}
+                                    y={n.y}
+                                    width={NODE_W}
+                                    height={n.height}
+                                    rx={2}
+                                    fill="#0d47a1"
+                                />
+                                {stacked ? (
+                                    <>
+                                        <text
+                                            x={n.x - 8}
+                                            y={cy - 1}
+                                            fontSize={11}
+                                            fontWeight={600}
+                                            fill="#1a1a1a"
+                                            textAnchor="end"
+                                            dominantBaseline="alphabetic"
+                                        >
+                                            {n.label}
+                                        </text>
+                                        <text
+                                            x={n.x - 8}
+                                            y={cy + 12}
+                                            fontSize={10}
+                                            fill="#718096"
+                                            textAnchor="end"
+                                            dominantBaseline="alphabetic"
+                                            style={{ fontVariantNumeric: "tabular-nums" }}
+                                        >
+                                            {n.totalValue.toLocaleString()}개
+                                        </text>
+                                    </>
+                                ) : (
+                                    <text
+                                        x={n.x - 8}
+                                        y={cy}
+                                        fontSize={11}
+                                        fontWeight={500}
+                                        fill="#1a1a1a"
+                                        textAnchor="end"
+                                        dominantBaseline="middle"
+                                    >
+                                        <tspan>{n.label}</tspan>
+                                        <tspan
+                                            dx={6}
+                                            fontSize={10}
+                                            fill="#94a3b8"
+                                            style={{ fontVariantNumeric: "tabular-nums" }}
+                                        >
+                                            {n.totalValue.toLocaleString()}
+                                        </tspan>
+                                    </text>
+                                )}
+                            </g>
+                        );
+                    })}
 
-                    {/* 도착지 노드 */}
-                    {targets.map((n) => (
-                        <g key={`t-${n.id}`}>
-                            <rect
-                                x={n.x}
-                                y={n.y}
-                                width={NODE_W}
-                                height={n.height}
-                                rx={2}
-                                fill="#1976d2"
-                            />
-                            <text
-                                x={n.x + NODE_W + 8}
-                                y={n.y + n.height / 2}
-                                fontSize={11}
-                                fontWeight={500}
-                                fill="#1a1a1a"
-                                textAnchor="start"
-                                dominantBaseline="middle"
-                            >
-                                {n.label}
-                            </text>
-                            <text
-                                x={n.x + NODE_W + 8}
-                                y={n.y + n.height / 2 + 12}
-                                fontSize={10}
-                                fill="#718096"
-                                textAnchor="start"
-                                dominantBaseline="middle"
-                            >
-                                {n.totalValue.toLocaleString()}개
-                            </text>
-                        </g>
-                    ))}
+                    {/* 도착지 노드 + 라벨 */}
+                    {targets.map((n) => {
+                        const cy = n.y + n.height / 2;
+                        const stacked = n.height >= 30;
+                        return (
+                            <g key={`t-${n.id}`}>
+                                <rect
+                                    x={n.x}
+                                    y={n.y}
+                                    width={NODE_W}
+                                    height={n.height}
+                                    rx={2}
+                                    fill="#1976d2"
+                                />
+                                {stacked ? (
+                                    <>
+                                        <text
+                                            x={n.x + NODE_W + 8}
+                                            y={cy - 1}
+                                            fontSize={11}
+                                            fontWeight={600}
+                                            fill="#1a1a1a"
+                                            textAnchor="start"
+                                            dominantBaseline="alphabetic"
+                                        >
+                                            {n.label}
+                                        </text>
+                                        <text
+                                            x={n.x + NODE_W + 8}
+                                            y={cy + 12}
+                                            fontSize={10}
+                                            fill="#718096"
+                                            textAnchor="start"
+                                            dominantBaseline="alphabetic"
+                                            style={{ fontVariantNumeric: "tabular-nums" }}
+                                        >
+                                            {n.totalValue.toLocaleString()}개
+                                        </text>
+                                    </>
+                                ) : (
+                                    <text
+                                        x={n.x + NODE_W + 8}
+                                        y={cy}
+                                        fontSize={11}
+                                        fontWeight={500}
+                                        fill="#1a1a1a"
+                                        textAnchor="start"
+                                        dominantBaseline="middle"
+                                    >
+                                        <tspan>{n.label}</tspan>
+                                        <tspan
+                                            dx={6}
+                                            fontSize={10}
+                                            fill="#94a3b8"
+                                            style={{ fontVariantNumeric: "tabular-nums" }}
+                                        >
+                                            {n.totalValue.toLocaleString()}
+                                        </tspan>
+                                    </text>
+                                )}
+                            </g>
+                        );
+                    })}
                 </svg>
             </div>
         </div>
