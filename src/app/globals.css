@@ -3,56 +3,94 @@
 /**
  * IOM (Inventory Operations Management) — Light Theme Design Tokens
  *
- * 변환 매핑 (Dark → Light):
- *  - Background: #0a0f1a (deep navy) → #f8fafc (light gray)
- *  - Card / Panel: #111927 → #ffffff + border #e2e8f0
- *  - Text Main: #f3f4f6 → #1a1a1a
- *  - Text Sub: #9ca3af → #4a5568
- *  - Text Label: #6b7280 → #718096
- *  - Border: rgba(255,255,255,0.10) → #e2e8f0
- *  - Primary Accent: cyan-500 → #0d47a1 (EMR Primary Blue)
+ * 출처:
+ *  - 인트로 v2 HTML 디자인 토큰 미러링
+ *  - Calm Enterprise UI 룰
+ *  - 종합 지시서 1-3·8장 차트 룰
  *
- * 그대로 유지:
- *  - Radius 6px (rounded-md 기준)
- *  - Subtle shadow
- *  - Typography: 데이터 11px, 타이틀 12~18px
- *  - Spacing system
+ * 변경 금지 룰:
+ *  - 6px 라운드 (rounded-md 기준)
+ *  - Subtle shadow `0 1px 3px rgba(0,0,0,0.06)`
+ *  - 데이터 11px / 타이틀 12~18px
+ *  - Primary `#0d47a1`
  */
+
+@font-face {
+  font-family: 'Pretendard';
+  font-display: swap;
+  src: local('Pretendard');
+}
+
+/* Source Serif 4 — 인트로 Hero 타이틀 전용 */
+/* Noto Sans KR — 본문 전체 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap');
+
 :root {
-  /* Surface */
-  --surface-bg: #f8fafc;
+  /* ─── Primary Brand ─── */
+  --primary: #0d47a1;
+  --primary-hover: #0b3d8a;
+  --primary-soft: #e8eef6;
+  --primary-soft-strong: #d6e3f5;
+
+  /* ─── Surface ─── */
+  --surface-bg: #f1f5f9;
+  --surface-section: #f8fafc;
   --surface-card: #ffffff;
   --surface-hover: #f1f5f9;
-  --surface-active: #e8f0fb;
+  --surface-active: #e8eef6;
 
-  /* Text */
+  /* ─── Hero (다크 네이비) — ENERTORK 인트로 표준 ─── */
+  --navy: #0d2137;
+  --navy-soft: rgba(13, 33, 55, 0.85);
+
+  /* ─── Text ─── */
   --text-main: #1a1a1a;
   --text-sub: #4a5568;
   --text-label: #718096;
   --text-mute: #94a3b8;
+  --text-disable: #cbd5e1;
 
-  /* Border */
+  /* ─── Border ─── */
   --border-default: #e2e8f0;
   --border-strong: #cbd5e1;
+  --border-mute: #f1f5f9;
 
-  /* Brand */
-  --primary: #0d47a1;
-  --primary-hover: #0b3d8a;
-  --primary-soft: #e8f0fb;
-
-  /* Severity */
-  --sev-critical: #dc2626;
-  --sev-warning: #d97706;
-  --sev-ok: #059669;
+  /* ─── Severity ─── */
+  --sev-critical: #d32f2f;
+  --sev-warning: #f57c00;
+  --sev-ok: #388e3c;
   --sev-info: #0d47a1;
 
-  /* Typography */
+  /* ─── Warn (As-Is 강조용) ─── */
+  --warn: #92400e;
+  --warn-bg: #fffbeb;
+  --warn-border: #fbbf24;
+
+  /* ─── Chart Palette ─── */
+  --chart-blue-1: #0d47a1;
+  --chart-blue-2: #1976d2;
+  --chart-blue-3: #42a5f5;
+  --chart-blue-4: #90caf9;
+  --chart-blue-5: #bbdefb;
+  --chart-grid: #e0e0e0;
+  --chart-axis: #cbd5e1;
+
+  /* ─── Typography ─── */
   --font-data: 11px;
   --font-body: 13px;
   --font-title-sm: 12px;
   --font-title-md: 14px;
   --font-title-lg: 16px;
   --font-title-xl: 18px;
+  --font-hero: 32px;
+
+  /* ─── Shadow ─── */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-elevated: 0 2px 8px rgba(13, 71, 161, 0.10);
+  --shadow-tooltip: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* ─── Gradient ─── */
+  --gradient-primary: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
 }
 
 html {
@@ -62,8 +100,8 @@ html {
 body {
   background: var(--surface-bg);
   color: var(--text-main);
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
   font-size: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -74,7 +112,12 @@ body {
   color: #ffffff;
 }
 
-/* Scrollbar — calm enterprise */
+/* ─── 인트로 Hero 전용 Serif ─── */
+.font-serif-hero {
+  font-family: 'Source Serif 4', 'Noto Serif KR', Georgia, serif;
+}
+
+/* ─── Calm Scrollbar ─── */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

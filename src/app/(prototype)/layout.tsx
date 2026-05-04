@@ -28,7 +28,7 @@ import {
     KeyRound,
     ChevronLeft,
     ChevronRight,
-    UserCircle2,
+    ChevronDown,
 } from "lucide-react";
 
 // ─── 메뉴 정의 ───────────────────────────────────────────────────────────────
@@ -226,22 +226,45 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
                         </h2>
                     </div>
 
-                    {/* 우상단 사용자 영역 */}
-                    <div className="flex items-center gap-5">
-                        <div className="hidden md:flex items-center gap-2 text-[11px] text-[#718096] font-mono">
-                            <span>LAST UPDATE</span>
-                            <span className="text-[#0d47a1] font-semibold">2026.05.05 09:00</span>
-                        </div>
-                        <div className="hidden md:block h-4 w-px bg-[#e2e8f0]" />
-                        <div className="flex items-center gap-2.5">
-                            <UserCircle2 size={22} strokeWidth={1.8} className="text-[#4a5568]" />
-                            <div className="hidden md:flex flex-col leading-tight">
-                                <span className="text-[12px] font-semibold text-[#1a1a1a]">
-                                    본사 관리자
-                                </span>
-                                <span className="text-[10px] text-[#718096]">HQ Manager</span>
-                            </div>
-                        </div>
+                    {/* 우상단 토글 3종 — 언어 / 통화 / 사용자 (ENERTORK 패턴) */}
+                    <div className="flex items-center gap-2.5">
+                        {/* 언어 토글 */}
+                        <button
+                            type="button"
+                            className="hidden md:flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e2e8f0] bg-white text-[12px] font-medium text-[#4a5568] hover:bg-[#f8fafc] hover:text-[#1a1a1a] hover:border-[#cbd5e1] transition-colors"
+                        >
+                            <span>한국어</span>
+                            <ChevronDown size={12} strokeWidth={2} className="text-[#94a3b8]" />
+                        </button>
+
+                        {/* 통화 토글 */}
+                        <button
+                            type="button"
+                            className="hidden md:flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e2e8f0] bg-white text-[12px] font-medium text-[#4a5568] hover:bg-[#f8fafc] hover:text-[#1a1a1a] hover:border-[#cbd5e1] transition-colors"
+                        >
+                            <span>KRW</span>
+                            <ChevronDown size={12} strokeWidth={2} className="text-[#94a3b8]" />
+                        </button>
+
+                        <div className="hidden md:block h-4 w-px bg-[#e2e8f0] mx-1" />
+
+                        {/* 사용자 영역 */}
+                        <button
+                            type="button"
+                            className="flex items-center gap-2.5 h-8 pr-2 pl-1 rounded-md hover:bg-[#f8fafc] transition-colors"
+                        >
+                            <span className="w-7 h-7 rounded-full bg-gradient-to-br from-[#1565c0] to-[#0d47a1] flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
+                                본
+                            </span>
+                            <span className="hidden md:inline text-[12px] font-semibold text-[#1a1a1a]">
+                                본사 관리자
+                            </span>
+                            <ChevronDown
+                                size={12}
+                                strokeWidth={2}
+                                className="hidden md:inline text-[#94a3b8]"
+                            />
+                        </button>
                     </div>
                 </header>
 
