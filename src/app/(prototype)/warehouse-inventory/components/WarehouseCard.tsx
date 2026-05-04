@@ -136,7 +136,12 @@ export default function WarehouseCard({ warehouse, selected, onClick }: Warehous
                     />
                 </div>
                 <div className="mt-3 flex items-center justify-between">
-                    <SeverityBadge severity={sev.severity}>{sev.label}</SeverityBadge>
+                    <SeverityBadge
+                        severity={sev.severity}
+                        variant={sev.severity === "critical" ? "solid" : "outline"}
+                    >
+                        {sev.label}
+                    </SeverityBadge>
                     <span className="text-[11px] text-[#718096]">
                         잔여 용량 {(100 - warehouse.utilizationPct).toFixed(0)}%
                     </span>

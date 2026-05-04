@@ -85,7 +85,10 @@ export default function ZoneSkuTable({ section, skus, statusFilter = "ALL" }: Zo
                                     {sku.threshold}
                                 </td>
                                 <td className="px-3 py-2.5 text-center">
-                                    <SeverityBadge severity={badge.severity}>
+                                    <SeverityBadge
+                                        severity={badge.severity}
+                                        variant={badge.severity === "critical" ? "solid" : "outline"}
+                                    >
                                         {badge.label}
                                     </SeverityBadge>
                                 </td>

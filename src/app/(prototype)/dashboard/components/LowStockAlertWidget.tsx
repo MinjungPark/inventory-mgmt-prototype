@@ -74,7 +74,11 @@ export default function LowStockAlertWidget() {
                             key={a.id}
                             className="px-2 py-3 flex items-center gap-3 hover:bg-[#f8fafc] transition-colors rounded-sm"
                         >
-                            <SeverityBadge severity={sev.severity} className="shrink-0 w-14 justify-center">
+                            <SeverityBadge
+                                severity={sev.severity}
+                                variant={a.severity === "critical" ? "solid" : "outline"}
+                                className="shrink-0 w-14 justify-center"
+                            >
                                 {sev.label}
                             </SeverityBadge>
                             <div className="flex-1 min-w-0">

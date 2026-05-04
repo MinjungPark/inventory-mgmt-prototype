@@ -2,32 +2,39 @@
  * @file src/components/ui/SeverityBadge.tsx
  * @description 의미 색상 배지 — ENERTORK 베스트셀러 배지 정통 스펙 미러링.
  *
- *  DevTools 추출값 (font-size 10 → 11 IOM 룰 준수):
- *    bg:           rgba(seed, 0.08)
- *    border:       rgba(seed, 0.22)
- *    color:        진한 hex
- *    font-size:    11px (IOM 최소 데이터 폰트 룰)
+ *  variant:
+ *   - outline (기본) : 옅은 배경 + 보더 + 진한 텍스트  (베스트셀러 스타일)
+ *   - solid          : 진한 배경 + 흰 텍스트          (강조용)
+ *
+ *  스펙 (ENERTORK DevTools 추출, font-size IOM 룰로 11px 적용):
+ *    font-size:      11px
  *    letter-spacing: 0.2px
- *    border-radius: 5px
- *    padding:      2px 6px
- *    font-weight:  700
- *    line-height:  1.4
+ *    border-radius:  5px
+ *    padding:        2px 6px
+ *    font-weight:    700
+ *    line-height:    1.4
  */
 
 import type { ReactNode } from "react";
 
 export type Severity = "critical" | "warning" | "ok" | "info" | "neutral";
+export type SeverityVariant = "outline" | "solid";
 
 interface SeverityBadgeProps {
     severity: Severity;
+    variant?: SeverityVariant;
     children: ReactNode;
-    /** 좌측 아이콘 (lucide 등) */
     icon?: ReactNode;
-    /** 추가 클래스 (예: 위치 조정) */
     className?: string;
 }
 
-const STYLES: Record<Severity, { bg: string; border: string; color: string }> = {
+interface ToneSpec {
+    bg: string;
+    border: string;
+    color: string;
+}
+
+const OUTLINE_STYLES: Record<Severity, ToneSpec> = {
     critical: {
         bg: "rgba(220, 38, 38, 0.08)",
         border: "rgba(220, 38, 38, 0.22)",
@@ -56,13 +63,42 @@ const STYLES: Record<Severity, { bg: string; border: string; color: string }> = 
     },
 };
 
+const SOLID_STYLES: Record<Severity, ToneSpec> = {
+    critical: {
+        bg: "#dc2626",
+        border: "#dc2626",
+        color: "#ffffff",
+    },
+    warning: {
+        bg: "#ea7c2e",       // ENERTORK --brand-orange
+        border: "#ea7c2e",
+        color: "#ffffff",
+    },
+    ok: {
+        bg: "#22c55e",
+        border: "#22c55e",
+        color: "#ffffff",
+    },
+    info: {
+        bg: "#0d47a1",
+        border: "#0d47a1",
+        color: "#ffffff",
+    },
+    neutral: {
+        bg: "#64748b",
+        border: "#64748b",
+        color: "#ffffff",
+    },
+};
+
 export default function SeverityBadge({
     severity,
+    variant = "outline",
     children,
     icon,
     className = "",
 }: SeverityBadgeProps) {
-    const s = STYLES[severity];
+    const s = variant === "solid" ? SOLID_STYLES[severity] : OUTLINE_STYLES[severity];
     return (
         <span
             className={`inline-flex items-center gap-1 font-bold text-[11px] leading-[1.4] ${className}`}

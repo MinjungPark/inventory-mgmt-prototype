@@ -34,12 +34,13 @@ export const CHART_SEVERITY = {
 /**
  * 차트 fill 전용 base 톤 — dark 보다 한 단계 밝아 누적/스택 차트에서 구분이 명확.
  *  - critical : #dc2626 (밝은 적색)
- *  - warning  : #ea7c2e (ENERTORK --brand-orange 정통)
+ *  - warning  : #fb923c (ENERTORK --brand-orange-light)
+ *               critical 적색과 hue 차이를 더 명확히 분리
  *  - ok       : #22c55e
  */
 export const CHART_SEVERITY_BASE = {
     critical: "#dc2626",
-    warning: "#ea7c2e",
+    warning: "#fb923c",
     ok: "#22c55e",
 } as const;
 

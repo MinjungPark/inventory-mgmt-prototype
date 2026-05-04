@@ -176,7 +176,10 @@ export default function AlertsTable({ alerts, onAcknowledge }: AlertsTableProps)
                                             </span>
                                         </td>
                                         <td className="px-3 py-2.5 text-center">
-                                            <SeverityBadge severity={SEVERITY_TO[a.severity]}>
+                                            <SeverityBadge
+                                                severity={SEVERITY_TO[a.severity]}
+                                                variant={a.severity === "critical" ? "solid" : "outline"}
+                                            >
                                                 {SEVERITY_LABEL[a.severity]}
                                             </SeverityBadge>
                                         </td>
