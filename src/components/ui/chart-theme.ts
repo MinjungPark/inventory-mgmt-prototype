@@ -34,12 +34,12 @@ export const CHART_SEVERITY = {
 /**
  * 차트 fill 전용 base 톤 — 누적/스택 차트에서 구분 명확.
  *  - critical : #b34530 (차분한 벽돌-크림슨)
- *  - warning  : #fb923c (ENERTORK --brand-orange-light)
+ *  - warning  : #fdba74 (옅은 살구 — 배지 살구 hue와 동일 계열, 채도 한 톤 다운)
  *  - ok       : #22c55e
  */
 export const CHART_SEVERITY_BASE = {
     critical: "#b34530",
-    warning: "#fb923c",
+    warning: "#fdba74",
     ok: "#22c55e",
 } as const;
 
