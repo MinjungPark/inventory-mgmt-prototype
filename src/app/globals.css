@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/**
+ * IOM (Inventory Operations Management) — Light Theme Design Tokens
+ *
+ * 변환 매핑 (Dark → Light):
+ *  - Background: #0a0f1a (deep navy) → #f8fafc (light gray)
+ *  - Card / Panel: #111927 → #ffffff + border #e2e8f0
+ *  - Text Main: #f3f4f6 → #1a1a1a
+ *  - Text Sub: #9ca3af → #4a5568
+ *  - Text Label: #6b7280 → #718096
+ *  - Border: rgba(255,255,255,0.10) → #e2e8f0
+ *  - Primary Accent: cyan-500 → #0d47a1 (EMR Primary Blue)
+ *
+ * 그대로 유지:
+ *  - Radius 6px (rounded-md 기준)
+ *  - Subtle shadow
+ *  - Typography: 데이터 11px, 타이틀 12~18px
+ *  - Spacing system
+ */
+:root {
+  /* Surface */
+  --surface-bg: #f8fafc;
+  --surface-card: #ffffff;
+  --surface-hover: #f1f5f9;
+  --surface-active: #e8f0fb;
+
+  /* Text */
+  --text-main: #1a1a1a;
+  --text-sub: #4a5568;
+  --text-label: #718096;
+  --text-mute: #94a3b8;
+
+  /* Border */
+  --border-default: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Brand */
+  --primary: #0d47a1;
+  --primary-hover: #0b3d8a;
+  --primary-soft: #e8f0fb;
+
+  /* Severity */
+  --sev-critical: #dc2626;
+  --sev-warning: #d97706;
+  --sev-ok: #059669;
+  --sev-info: #0d47a1;
+
+  /* Typography */
+  --font-data: 11px;
+  --font-body: 13px;
+  --font-title-sm: 12px;
+  --font-title-md: 14px;
+  --font-title-lg: 16px;
+  --font-title-xl: 18px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--surface-bg);
+  color: var(--text-main);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Noto Sans KR', sans-serif;
+  font-size: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+/* Scrollbar — calm enterprise */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
