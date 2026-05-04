@@ -35,14 +35,14 @@ const TARGET_ORDER: TrackingLocation[] = [
 
 // ─── 레이아웃 상수 ─────────────────────────────────────────────────────────
 
-const VIEW_W = 920;
-const VIEW_H = 560;
-const NODE_W = 10;
-const NODE_GAP = 8;
-const PADDING_TOP = 32;
-const PADDING_BOTTOM = 24;
-const LEFT_LABEL_W = 180;
-const RIGHT_LABEL_W = 180;
+const VIEW_W = 1040;
+const VIEW_H = 620;
+const NODE_W = 14;
+const NODE_GAP = 12;
+const PADDING_TOP = 40;
+const PADDING_BOTTOM = 32;
+const LEFT_LABEL_W = 220;
+const RIGHT_LABEL_W = 220;
 const LEFT_X = LEFT_LABEL_W;
 const RIGHT_X = VIEW_W - RIGHT_LABEL_W - NODE_W;
 
@@ -259,12 +259,12 @@ export default function FlowSankey() {
                 </div>
             </div>
 
-            {/* SVG Sankey */}
-            <div className="relative w-full overflow-x-auto bg-[#f8fafc] border border-[#e2e8f0] rounded-md">
+            {/* SVG Sankey — overflow-hidden으로 컨테이너 좌측 침범 차단, viewBox 비율 유지 */}
+            <div className="relative w-full overflow-hidden bg-[#f8fafc] border border-[#e2e8f0] rounded-md">
                 <svg
                     viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+                    preserveAspectRatio="xMidYMid meet"
                     className="w-full h-auto block"
-                    style={{ minWidth: 720 }}
                 >
                     {/* 컬럼 라벨 */}
                     <text
@@ -314,11 +314,9 @@ export default function FlowSankey() {
                         );
                     })}
 
-                    {/* 출발지 노드 + 라벨 */}
+                    {/* 출발지 노드 + 라벨 (모두 인라인 한 줄로 통일 — 컨테이너 침범 방지) */}
                     {sources.map((n) => {
                         const cy = n.y + n.height / 2;
-                        // 작은 노드는 라벨 한 줄(인라인), 큰 노드는 두 줄
-                        const stacked = n.height >= 30;
                         return (
                             <g key={`s-${n.id}`}>
                                 <rect
@@ -329,52 +327,25 @@ export default function FlowSankey() {
                                     rx={2}
                                     fill="#0d47a1"
                                 />
-                                {stacked ? (
-                                    <>
-                                        <text
-                                            x={n.x - 8}
-                                            y={cy - 1}
-                                            fontSize={11}
-                                            fontWeight={600}
-                                            fill="#1a1a1a"
-                                            textAnchor="end"
-                                            dominantBaseline="alphabetic"
-                                        >
-                                            {n.label}
-                                        </text>
-                                        <text
-                                            x={n.x - 8}
-                                            y={cy + 12}
-                                            fontSize={10}
-                                            fill="#718096"
-                                            textAnchor="end"
-                                            dominantBaseline="alphabetic"
-                                            style={{ fontVariantNumeric: "tabular-nums" }}
-                                        >
-                                            {n.totalValue.toLocaleString()}개
-                                        </text>
-                                    </>
-                                ) : (
-                                    <text
-                                        x={n.x - 8}
-                                        y={cy}
-                                        fontSize={11}
-                                        fontWeight={500}
-                                        fill="#1a1a1a"
-                                        textAnchor="end"
-                                        dominantBaseline="middle"
+                                <text
+                                    x={n.x - 8}
+                                    y={cy}
+                                    fontSize={11}
+                                    fontWeight={500}
+                                    fill="#1a1a1a"
+                                    textAnchor="end"
+                                    dominantBaseline="middle"
+                                >
+                                    <tspan fontWeight={600}>{n.label}</tspan>
+                                    <tspan
+                                        dx={6}
+                                        fontSize={10}
+                                        fill="#94a3b8"
+                                        style={{ fontVariantNumeric: "tabular-nums" }}
                                     >
-                                        <tspan>{n.label}</tspan>
-                                        <tspan
-                                            dx={6}
-                                            fontSize={10}
-                                            fill="#94a3b8"
-                                            style={{ fontVariantNumeric: "tabular-nums" }}
-                                        >
-                                            {n.totalValue.toLocaleString()}
-                                        </tspan>
-                                    </text>
-                                )}
+                                        {n.totalValue.toLocaleString()}
+                                    </tspan>
+                                </text>
                             </g>
                         );
                     })}
@@ -382,7 +353,6 @@ export default function FlowSankey() {
                     {/* 도착지 노드 + 라벨 */}
                     {targets.map((n) => {
                         const cy = n.y + n.height / 2;
-                        const stacked = n.height >= 30;
                         return (
                             <g key={`t-${n.id}`}>
                                 <rect
@@ -393,52 +363,25 @@ export default function FlowSankey() {
                                     rx={2}
                                     fill="#1976d2"
                                 />
-                                {stacked ? (
-                                    <>
-                                        <text
-                                            x={n.x + NODE_W + 8}
-                                            y={cy - 1}
-                                            fontSize={11}
-                                            fontWeight={600}
-                                            fill="#1a1a1a"
-                                            textAnchor="start"
-                                            dominantBaseline="alphabetic"
-                                        >
-                                            {n.label}
-                                        </text>
-                                        <text
-                                            x={n.x + NODE_W + 8}
-                                            y={cy + 12}
-                                            fontSize={10}
-                                            fill="#718096"
-                                            textAnchor="start"
-                                            dominantBaseline="alphabetic"
-                                            style={{ fontVariantNumeric: "tabular-nums" }}
-                                        >
-                                            {n.totalValue.toLocaleString()}개
-                                        </text>
-                                    </>
-                                ) : (
-                                    <text
-                                        x={n.x + NODE_W + 8}
-                                        y={cy}
-                                        fontSize={11}
-                                        fontWeight={500}
-                                        fill="#1a1a1a"
-                                        textAnchor="start"
-                                        dominantBaseline="middle"
+                                <text
+                                    x={n.x + NODE_W + 8}
+                                    y={cy}
+                                    fontSize={11}
+                                    fontWeight={500}
+                                    fill="#1a1a1a"
+                                    textAnchor="start"
+                                    dominantBaseline="middle"
+                                >
+                                    <tspan fontWeight={600}>{n.label}</tspan>
+                                    <tspan
+                                        dx={6}
+                                        fontSize={10}
+                                        fill="#94a3b8"
+                                        style={{ fontVariantNumeric: "tabular-nums" }}
                                     >
-                                        <tspan>{n.label}</tspan>
-                                        <tspan
-                                            dx={6}
-                                            fontSize={10}
-                                            fill="#94a3b8"
-                                            style={{ fontVariantNumeric: "tabular-nums" }}
-                                        >
-                                            {n.totalValue.toLocaleString()}
-                                        </tspan>
-                                    </text>
-                                )}
+                                        {n.totalValue.toLocaleString()}
+                                    </tspan>
+                                </text>
                             </g>
                         );
                     })}
