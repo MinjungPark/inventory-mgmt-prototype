@@ -137,8 +137,8 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <ChartCard
                     Icon={Activity}
-                    title="카테고리별 재고 회전율 TOP 10"
-                    subtitle="일평균 회전율 기준"
+                    title="카테고리별 재고 회전율"
+                    subtitle="5 카테고리 평균 (일평균)"
                     height={300}
                 >
                     <CategoryTurnoverBar />

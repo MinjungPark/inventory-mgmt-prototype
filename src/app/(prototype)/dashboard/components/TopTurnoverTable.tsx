@@ -8,14 +8,10 @@
 import { TrendingUp } from "lucide-react";
 import { SKUS } from "@/data/seed";
 
-// CategoryTurnoverBar 와 동일한 시각 임팩트 곡선 — 차트·테이블 정합성
-const DISPLAY_CURVE = [9.5, 8.9, 8.4, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0];
-
 export default function TopTurnoverTable() {
     const top10 = [...SKUS]
         .sort((a, b) => b.turnoverRate - a.turnoverRate)
-        .slice(0, 10)
-        .map((s, idx) => ({ ...s, displayTurnover: DISPLAY_CURVE[idx] }));
+        .slice(0, 10);
 
     return (
         <div className="bg-white border border-[#e2e8f0] rounded-md p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col">
@@ -65,7 +61,7 @@ export default function TopTurnoverTable() {
                                     {s.category}
                                 </td>
                                 <td className="px-2 py-2.5 text-[12px] text-right font-semibold text-[#0d47a1] tabular-nums">
-                                    {s.displayTurnover.toFixed(2)}
+                                    {s.turnoverRate.toFixed(2)}
                                 </td>
                                 <td className="px-2 py-2.5 text-[12px] text-right text-[#4a5568] tabular-nums">
                                     {(s.storeQuantity + s.warehouseQuantity).toLocaleString()}

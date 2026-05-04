@@ -115,22 +115,22 @@ function generateSkusForCategory(category: ProductCategory, count: number): Sku[
         const storeQuantity = Math.floor(det() * 40);
         const warehouseQuantity = 20 + Math.floor(det() * 200);
 
-        // ─── 회전율 — 균등 분포 0.5 ~ 9.5 + 카테고리 가산 ───
+        // ─── 회전율 — 카테고리 평균 + 노이즈 (실제 영업 패턴) ───
         //
-        // 균등 분포가 TOP 10에 가장 자연스러운 순위 차이를 만듦.
-        //   (예: 9.5 / 8.7 / 7.9 / 7.1 … 5.5 식으로 1~10등이 약 4 차이)
-        // 거듭제곱·정규분포는 상위권을 좁게 압축해서 시각 임팩트가 죽음.
-        const baseTurnover = 0.5 + det() * 9.0;       // 0.5 ~ 9.5 균등
-        const categoryAdj =
-            category === "화장품" ? 0.3 :
-            category === "의류"   ? 0.2 :
-            category === "잡화"   ? 0.0 :
-            category === "신발"   ? -0.1 :
-                                    -0.2;              // 라이프스타일
-        const turnoverRate = +Math.max(
-            0.2,
-            Math.min(9.8, baseTurnover + categoryAdj)
-        ).toFixed(2);
+        // 카테고리 평균값을 base로 두고 ±1.5 자연 노이즈 + 5% 스타 SKU 스파이크.
+        //   결과: 화장품 5.x, 의류 4.x, 잡화/신발 3.x, 라이프스타일 2.x 자연 분포.
+        const categoryAvg: Record<string, number> = {
+            "화장품": 5.6,
+            "의류": 4.5,
+            "잡화": 3.5,
+            "신발": 3.0,
+            "라이프스타일": 2.4,
+        };
+        const turnoverBase = categoryAvg[category] ?? 3.5;
+        const noise = (det() - 0.5) * 3.0;                    // ±1.5 자연 노이즈
+        const spike = det() < 0.05 ? 2.0 + det() * 1.5 : 0;    // 5% 스타 SKU +2~3.5
+        const rawTurnover = Math.max(0.3, Math.min(9.5, turnoverBase + noise + spike));
+        const turnoverRate = Number(rawTurnover.toFixed(2));
 
         const lastRestockedAt = new Date(
             Date.now() - Math.floor(det() * 30) * 24 * 60 * 60 * 1000,
