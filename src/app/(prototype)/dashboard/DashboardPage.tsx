@@ -69,6 +69,7 @@ export default function DashboardPage() {
                     value={kpi.totalSku.toLocaleString()}
                     unit="개"
                     Icon={Boxes}
+                    info="SKU(Stock Keeping Unit)는 재고 관리의 가장 작은 식별 단위입니다. 같은 품목이라도 색상·사이즈 변형은 각각 다른 SKU로 관리합니다. 매장·창고 전체에 등록된 활성 SKU 수입니다."
                     trend={{ value: 2.4, direction: "up", label: "전월 대비" }}
                 />
                 <KpiCard
@@ -92,6 +93,7 @@ export default function DashboardPage() {
                     unit="건"
                     Icon={AlertCircle}
                     tone="critical"
+                    info="관리자가 설정한 SKU별 알림 기준 수량보다 매장 재고가 부족한 SKU 수. 설정 페이지(/admin/threshold)에서 SKU별 또는 카테고리 일괄로 기준 수량을 조정할 수 있습니다."
                     trend={{ value: 12, direction: "up", label: "전일 대비" }}
                 />
                 <KpiCard
@@ -152,7 +154,7 @@ export default function DashboardPage() {
                     Icon={Radar}
                     title="자주 알림 발생 SKU TOP 5"
                     subtitle="안전 재고 미달 빈도"
-                    info="안전 재고 알림이 가장 자주 발생한 SKU 상위 5개. 이 품목들은 발주 정책 재검토 또는 안전 재고 기준 상향이 필요한 후보입니다."
+                    info="SKU(Stock Keeping Unit)는 재고 관리의 가장 작은 식별 단위(예: 트렌치 코트 베이지 M). 본 차트는 최근 안전 재고 알림이 가장 자주 발생한 SKU 상위 5개 — 발주 정책 재검토 또는 안전 재고 기준 상향이 필요한 후보입니다."
                     height={300}
                 >
                     <FrequentAlertSkuRadar />

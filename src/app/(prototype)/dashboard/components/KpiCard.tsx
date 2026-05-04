@@ -7,6 +7,7 @@
 
 import type { LucideIcon } from "lucide-react";
 import { TrendingDown, TrendingUp } from "lucide-react";
+import InfoHint from "@/components/ui/InfoHint";
 
 interface KpiCardProps {
     label: string;
@@ -15,6 +16,8 @@ interface KpiCardProps {
     Icon: LucideIcon;
     /** 강조 톤 — 보통(default) / 위험(critical) / 강조(accent) */
     tone?: "default" | "critical" | "accent";
+    /** 호버 시 도움말 (정의·계산식 등). 있으면 라벨 우측에 인포 아이콘 표시. */
+    info?: string;
     /** 전기 대비 추이 */
     trend?: {
         value: number;        // 증감률 (예: 2.4)
@@ -51,6 +54,7 @@ export default function KpiCard({
     unit,
     Icon,
     tone = "default",
+    info,
     trend,
 }: KpiCardProps) {
     const styles = TONE_STYLES[tone];
@@ -59,7 +63,10 @@ export default function KpiCard({
         <div className="bg-white border border-[#e2e8f0] rounded-md p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_8px_rgba(13,71,161,0.08)] hover:border-[#cbd5e1] transition-all group">
             <div className="flex items-start justify-between">
                 <div className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-medium text-[#718096]">{label}</span>
+                    <div className="flex items-center gap-1">
+                        <span className="text-[12px] font-medium text-[#718096]">{label}</span>
+                        {info && <InfoHint text={info} size={12} />}
+                    </div>
                     <div className="flex items-baseline gap-1">
                         <span className={`text-[24px] font-bold tracking-tight ${styles.valueColor}`}>
                             {value}

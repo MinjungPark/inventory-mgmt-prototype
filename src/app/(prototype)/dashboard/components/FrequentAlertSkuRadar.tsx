@@ -130,11 +130,17 @@ export default function FrequentAlertSkuRadar() {
     const labels = buildUniqueLabels(top5);
     top5 = top5.map((p, i) => ({ ...p, label: labels[i] }));
 
+    // 5) PolarRadiusAxis domain — 최대값에 살짝 여유만 두고 외곽 거의 채움
+    //    (max + 0.5)로 두면 1등 꼭짓점이 외곽에 거의 닿아 색 영역이 크게 보임.
+    const maxCount = Math.max(...top5.map((p) => p.count), 1);
+    const radiusMax = Math.max(3, Math.ceil(maxCount + 0.5));
+    const radiusTicks = radiusMax <= 4 ? [0, 1, 2, 3, 4] : [0, 2, 4, 6];
+
     return (
         <ResponsiveContainer width="100%" height="100%">
             <RadarChart
                 data={top5}
-                outerRadius="68%"
+                outerRadius="78%"
                 margin={{ top: 8, right: 32, bottom: 8, left: 32 }}
             >
                 <PolarGrid stroke="#e0e0e0" />
@@ -147,16 +153,16 @@ export default function FrequentAlertSkuRadar() {
                     angle={30}
                     tick={{ fill: "#94a3b8", fontSize: 11 }}
                     axisLine={false}
-                    domain={[0, 6]}
-                    tickCount={4}
+                    domain={[0, radiusMax]}
+                    ticks={radiusTicks.filter((t) => t <= radiusMax)}
                 />
                 <Radar
                     name="알림 발생"
                     dataKey="count"
                     stroke={CHART_BLUE_SCALE[0]}
                     fill={CHART_BLUE_SCALE[0]}
-                    fillOpacity={0.3}
-                    strokeWidth={1.8}
+                    fillOpacity={0.4}
+                    strokeWidth={2}
                     isAnimationActive={false}
                 />
                 <Tooltip content={<RadarTooltip />} />
