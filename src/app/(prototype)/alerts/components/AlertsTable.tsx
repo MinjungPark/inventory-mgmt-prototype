@@ -13,6 +13,8 @@ import { SEVERITY_LABEL, STATUS_LABEL } from "@/data/seed/alerts-helpers";
 
 interface AlertsTableProps {
     alerts: StockAlert[];
+    /** 선택된 알림 id를 일괄 확인 처리. 부모가 status를 'acknowledged'로 변경. */
+    onAcknowledge: (ids: string[]) => void;
 }
 
 const PAGE_SIZE = 20;
@@ -39,7 +41,7 @@ function formatDateTime(iso: string): string {
     return `${yy}-${mm}-${dd} ${hh}:${mi}`;
 }
 
-export default function AlertsTable({ alerts }: AlertsTableProps) {
+export default function AlertsTable({ alerts, onAcknowledge }: AlertsTableProps) {
     const [page, setPage] = useState(1);
     const [selected, setSelected] = useState<Set<string>>(new Set());
 
@@ -48,6 +50,12 @@ export default function AlertsTable({ alerts }: AlertsTableProps) {
     const pageItems = alerts.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
     const allSelected = pageItems.length > 0 && pageItems.every((a) => selected.has(a.id));
     const someSelected = pageItems.some((a) => selected.has(a.id)) && !allSelected;
+
+    // 'new' 상태인 항목만 일괄 확인 가능 — 이미 처리된 알림은 제외
+    const acknowledgable = Array.from(selected).filter((id) => {
+        const a = alerts.find((x) => x.id === id);
+        return a?.status === "new";
+    });
 
     function toggleAll() {
         const next = new Set(selected);
@@ -60,6 +68,11 @@ export default function AlertsTable({ alerts }: AlertsTableProps) {
         if (next.has(id)) next.delete(id);
         else next.add(id);
         setSelected(next);
+    }
+    function handleBulkAck() {
+        if (acknowledgable.length === 0) return;
+        onAcknowledge(acknowledgable);
+        setSelected(new Set());
     }
 
     return (
@@ -79,12 +92,22 @@ export default function AlertsTable({ alerts }: AlertsTableProps) {
                 </div>
                 <button
                     type="button"
-                    disabled={selected.size === 0}
+                    onClick={handleBulkAck}
+                    disabled={acknowledgable.length === 0}
                     className="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e2e8f0] bg-white text-[12px] font-semibold text-[#0d47a1] hover:bg-[#e8eef6] hover:border-[#0d47a1]/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                    title="선택한 알림을 일괄 확인 처리합니다"
+                    title={
+                        acknowledgable.length > 0
+                            ? `선택한 신규 알림 ${acknowledgable.length}건을 일괄 확인 처리합니다`
+                            : "신규 상태의 알림을 선택해 주세요"
+                    }
                 >
                     <CheckCheck size={13} strokeWidth={2.2} />
                     선택 일괄 확인
+                    {acknowledgable.length > 0 && (
+                        <span className="ml-0.5 px-1.5 rounded-full bg-[#0d47a1] text-white text-[10px] font-bold tabular-nums">
+                            {acknowledgable.length}
+                        </span>
+                    )}
                 </button>
             </div>
 
