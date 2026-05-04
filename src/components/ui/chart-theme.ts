@@ -24,11 +24,23 @@ export const CHART_CATEGORICAL = [
     "#5e92f3", // 라이프스타일
 ] as const;
 
-// ENERTORK Calm 톤 — 형광 회피한 차분한 의미 색상
+// ENERTORK 톤 — 텍스트/배지용 dark 단계 (배경 위 가독성)
 export const CHART_SEVERITY = {
     critical: "#991b1b",
-    warning: "#9a3412",
+    warning: "#c2410c",
     ok: "#15803d",
+} as const;
+
+/**
+ * 차트 fill 전용 base 톤 — dark 보다 한 단계 밝아 누적/스택 차트에서 구분이 명확.
+ *  - critical : #dc2626 (밝은 적색)
+ *  - warning  : #ea7c2e (ENERTORK --brand-orange 정통)
+ *  - ok       : #22c55e
+ */
+export const CHART_SEVERITY_BASE = {
+    critical: "#dc2626",
+    warning: "#ea7c2e",
+    ok: "#22c55e",
 } as const;
 
 // ─── 축 / 그리드 / 폰트 ─────────────────────────────────────────────────────

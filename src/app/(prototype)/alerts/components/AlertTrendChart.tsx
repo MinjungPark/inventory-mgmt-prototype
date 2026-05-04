@@ -18,6 +18,7 @@ import {
 import ChartTooltip from "@/components/ui/ChartTooltip";
 import {
     CHART_GRID_STROKE,
+    CHART_SEVERITY_BASE,
     CHART_TICK,
 } from "@/components/ui/chart-theme";
 import { buildAlertTrend } from "@/data/seed/alerts-helpers";
@@ -52,8 +53,22 @@ export default function AlertTrendChart() {
                     wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
                     formatter={(value) => <span className="text-[#4a5568]">{value}</span>}
                 />
-                <Bar dataKey="warning" name="주의" stackId="a" fill="#c2410c" radius={[0, 0, 0, 0]} maxBarSize={14} />
-                <Bar dataKey="critical" name="긴급" stackId="a" fill="#991b1b" radius={[4, 4, 0, 0]} maxBarSize={14} />
+                <Bar
+                    dataKey="warning"
+                    name="주의"
+                    stackId="a"
+                    fill={CHART_SEVERITY_BASE.warning}
+                    radius={[0, 0, 0, 0]}
+                    maxBarSize={14}
+                />
+                <Bar
+                    dataKey="critical"
+                    name="긴급"
+                    stackId="a"
+                    fill={CHART_SEVERITY_BASE.critical}
+                    radius={[4, 4, 0, 0]}
+                    maxBarSize={14}
+                />
             </BarChart>
         </ResponsiveContainer>
     );
