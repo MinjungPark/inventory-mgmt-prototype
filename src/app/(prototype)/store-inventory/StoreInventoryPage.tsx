@@ -119,7 +119,8 @@ export default function StoreInventoryPage() {
             <PageHeader
                 title="매장 재고"
                 subtitle="플래그십 매장 7개 섹션의 잔여 재고 수량 및 존(Zone) 단위 시각화"
-                rfpMapping="2-1 ① 매장 구역·존"
+                rfpBadgeLabel="2-1 ①"
+                rfpHighlightItems={["2-1-①"]}
             />
 
             {/* 분류 기준 안내 */}

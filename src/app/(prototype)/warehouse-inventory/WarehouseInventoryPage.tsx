@@ -65,7 +65,8 @@ export default function WarehouseInventoryPage() {
             <PageHeader
                 title="창고 재고"
                 subtitle="3개 창고의 보유 재고 현황 · 카테고리 분포 · 전체 SKU 드릴다운"
-                rfpMapping="2-1 ② 창고별 보유"
+                rfpBadgeLabel="2-1 ②"
+                rfpHighlightItems={["2-1-②"]}
             />
 
             {/* 상단 KPI 4종 */}

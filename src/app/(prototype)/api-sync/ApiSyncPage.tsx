@@ -48,7 +48,8 @@ export default function ApiSyncPage() {
             <PageHeader
                 title="데이터 자동 동기화 (API 연동)"
                 subtitle="본사 ERP와의 실시간 연동 · 수동 → 자동 전환 효과"
-                rfpMapping="2-2 API 연동·자동화"
+                rfpBadgeLabel="2-2 종합"
+                rfpHighlightSection="2-2"
             />
 
             {/* 상단 카드 3종 */}

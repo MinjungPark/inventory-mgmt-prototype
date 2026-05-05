@@ -110,7 +110,8 @@ export default function AlertsPage() {
             <PageHeader
                 title="재고 알림"
                 subtitle="안전 재고 미달 알림의 신규·확인·해결 흐름과 30일 발생 추이"
-                rfpMapping="2-3 ② 감지·알림"
+                rfpBadgeLabel="2-3 ②"
+                rfpHighlightItems={["2-3-②"]}
             />
 
             {/* KPI */}

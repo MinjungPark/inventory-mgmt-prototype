@@ -85,7 +85,8 @@ export default function ThresholdSettingPage() {
             <PageHeader
                 title="재고 알림 설정"
                 subtitle="SKU별 알림 기준 수량 · 카테고리 일괄 설정 · 매장별 차등 · 변경 이력"
-                rfpMapping="2-3 ① 관리자 설정 수량"
+                rfpBadgeLabel="2-3 ①"
+                rfpHighlightItems={["2-3-①"]}
             />
 
             {/* 안내 박스 */}
