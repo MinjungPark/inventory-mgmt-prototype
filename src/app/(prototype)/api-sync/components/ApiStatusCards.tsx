@@ -1,12 +1,16 @@
 /**
  * @file src/app/(prototype)/api-sync/components/ApiStatusCards.tsx
- * @description 화면 6 상단 카드 3종 — API 연결 / 다음 동기화 / 누적 처리.
+ * @description 화면 6 상단 카드 3종 — 본사 API 연결 / 오늘 연동 현황 / 누적 자동 처리.
+ *
+ *  RFP 정합 정정 (2026-05): "다음 동기화 예정" → "오늘 연동 현황" 으로 교체.
+ *  사유: 시간 기반 폴링 가정 대신, 매장→본사 적재 누적 결과를 보여주는 게
+ *        RFP 본질(매장→본사 흐름)에 더 가깝고 발주처 의사결정에 직접 도움.
  */
 
 "use client";
 
-import { CheckCircle2, Clock, Database, AlertOctagon } from "lucide-react";
-import { API_HEALTH } from "@/data/seed/api-sync-seed";
+import { CheckCircle2, Database, AlertOctagon, Activity } from "lucide-react";
+import { API_HEALTH, TODAY_SYNC_STATS } from "@/data/seed/api-sync-seed";
 import SeverityBadge from "@/components/ui/SeverityBadge";
 import InfoHint from "@/components/ui/InfoHint";
 
@@ -98,40 +102,64 @@ export default function ApiStatusCards() {
                 </div>
             </div>
 
-            {/* 2. 다음 동기화 예정 시각 */}
+            {/* 2. 오늘 연동 현황 — 매장·외부사 키 호출 누적 결과 */}
             <div className="bg-white border border-[#e2e8f0] rounded-md p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
                 <div className="flex items-center gap-2 mb-4">
-                    <Clock size={16} strokeWidth={2} className="text-[#0d47a1]" />
+                    <Activity size={16} strokeWidth={2} className="text-[#0d47a1]" />
                     <h3 className="text-[13px] font-semibold text-[#1a1a1a]">
-                        다음 동기화 예정
+                        오늘 연동 현황
                     </h3>
                     <InfoHint
-                        title="자동 동기화 주기"
-                        definition="본사 API와의 자동 동기화 다음 실행 시각입니다."
+                        title="오늘 연동 현황"
+                        definition="오늘(00:00 이후) 매장·외부사 API 키로 들어온 호출의 누적 결과입니다."
                         bullets={[
-                            "재고 일괄 / SKU 마스터: 1시간 주기",
-                            "가격 정책 / 안전 재고 기준: 본사 변경 시 즉시 푸시",
-                            "관리자가 '즉시 동기화' 버튼으로 수동 트리거 가능",
+                            "성공 — 정상 적재 완료. 본사 DB 재고 관리 섹션에 즉시 반영.",
+                            "부분 — 일부 SKU만 적재. 사유는 동기화 이력 표 사유 컬럼에 노출.",
+                            "실패 — 적재 0건. 좌측 알림 패널에 즉시 노출되며 재시도 가능.",
+                            "성공률은 순수 성공 / 전체 비율 (부분은 성공으로 미산입).",
                         ]}
                     />
                 </div>
 
                 <div className="space-y-2">
-                    <p className="text-[24px] font-bold text-[#0d47a1] tracking-tight tabular-nums leading-tight">
-                        {formatDateTime(h.nextSyncAt).slice(11)}
-                    </p>
-                    <p className="text-[12px] text-[#4a5568]">
-                        {formatDateTime(h.nextSyncAt).slice(0, 10)} ·{" "}
-                        <span className="font-semibold text-[#1a1a1a]">
-                            {relativeTime(h.nextSyncAt, nowMs)}
+                    {/* 큰 숫자 — 오늘 누적 연동 횟수 */}
+                    <div className="flex items-baseline gap-1.5">
+                        <p className="text-[28px] font-bold text-[#0d47a1] tracking-tight tabular-nums leading-none">
+                            {TODAY_SYNC_STATS.totalCount.toLocaleString()}
+                        </p>
+                        <p className="text-[14px] text-[#718096] font-medium">회</p>
+                        <p className="ml-auto text-[11px] text-[#64748b] tabular-nums">
+                            성공률 <span className="font-bold text-[#15803d]">{TODAY_SYNC_STATS.successRate.toFixed(1)}%</span>
+                        </p>
+                    </div>
+
+                    {/* 결과 분포 */}
+                    <div className="flex items-center gap-3 pt-1">
+                        <span className="inline-flex items-center gap-1 text-[11px]">
+                            <span className="inline-block w-2 h-2 rounded-full bg-[#15803d]" />
+                            <span className="font-semibold text-[#15803d] tabular-nums">{TODAY_SYNC_STATS.success}</span>
+                            <span className="text-[#64748b]">성공</span>
                         </span>
-                    </p>
-                    <button
-                        type="button"
-                        className="mt-2 w-full h-8 rounded-md border border-[#e2e8f0] bg-white text-[12px] font-semibold text-[#0d47a1] hover:bg-[#e8eef6] hover:border-[#0d47a1]/30 transition-colors"
-                    >
-                        즉시 동기화
-                    </button>
+                        <span className="inline-flex items-center gap-1 text-[11px]">
+                            <span className="inline-block w-2 h-2 rounded-full bg-[#c2410c]" />
+                            <span className="font-semibold text-[#c2410c] tabular-nums">{TODAY_SYNC_STATS.partial}</span>
+                            <span className="text-[#64748b]">부분</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-[11px]">
+                            <span className="inline-block w-2 h-2 rounded-full bg-[#b34530]" />
+                            <span className="font-semibold text-[#b34530] tabular-nums">{TODAY_SYNC_STATS.failed}</span>
+                            <span className="text-[#64748b]">실패</span>
+                        </span>
+                    </div>
+
+                    {/* 보조 정보 */}
+                    <div className="pt-2 border-t border-[#f1f5f9] flex items-baseline justify-between">
+                        <span className="text-[11px] text-[#718096]">활성 키</span>
+                        <p className="text-[12px] text-[#1a1a1a]">
+                            <span className="font-semibold tabular-nums">{TODAY_SYNC_STATS.activeKeyCount}개</span>
+                            <span className="text-[#64748b] ml-2">· 마지막 호출 {relativeTime(TODAY_SYNC_STATS.lastCalledAt, nowMs)}</span>
+                        </p>
+                    </div>
                 </div>
             </div>
 

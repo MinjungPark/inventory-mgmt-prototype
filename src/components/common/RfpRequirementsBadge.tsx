@@ -1,7 +1,8 @@
 /**
  * @file src/components/common/RfpRequirementsBadge.tsx
  * @description '상세 기능 요구 사항 : N-N. 섹션명' 배지 + 호버 시 RFP 트리 전체.
- *              현재 화면 해당 섹션은 Primary 블루로, 그 항목은 검정으로 강조.
+ *              현재 화면 해당 섹션은 중제목 · 항목 모두 Primary 블루로 통일.
+ *              ▶ 마커는 사용하지 않음 — 블루 톤 자체로 강조 시그널이 충분.
  *              다른 섹션은 회색(중제목 #4a5568) / 옅은 회색(항목 #94a3b8)으로 배경화.
  */
 
@@ -96,25 +97,29 @@ export default function RfpRequirementsBadge({
                                                     key={item.id}
                                                     className={`flex gap-1.5 text-[12px] leading-[1.6] ${
                                                         isItemHighlight
-                                                            ? "text-[#1a1a1a] font-semibold"
+                                                            ? "text-[#0d47a1] font-semibold"
                                                             : isCurrentSection
                                                                 ? "text-[#4a5568] font-normal"
-                                                                : "text-[#94a3b8] font-normal"
+                                                                : "text-[#64748b] font-normal"
                                                     }`}
                                                 >
                                                     <span className="shrink-0 w-3.5">
-                                                        {isItemHighlight ? (
-                                                            <span className="text-[#0d47a1]">▶</span>
-                                                        ) : (
-                                                            <span className="text-[#cbd5e1]">·</span>
-                                                        )}
+                                                        <span
+                                                            className={
+                                                                isItemHighlight
+                                                                    ? "text-[#0d47a1]"
+                                                                    : "text-[#94a3b8]"
+                                                            }
+                                                        >
+                                                            ·
+                                                        </span>
                                                     </span>
                                                     <span className="flex-1">
                                                         <span
                                                             className={`mr-1 font-mono ${
                                                                 isItemHighlight
                                                                     ? "text-[#0d47a1]"
-                                                                    : "text-[#cbd5e1]"
+                                                                    : "text-[#94a3b8]"
                                                             }`}
                                                         >
                                                             {item.label}

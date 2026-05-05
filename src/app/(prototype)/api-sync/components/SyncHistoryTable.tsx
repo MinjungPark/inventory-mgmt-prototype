@@ -1,19 +1,19 @@
 /**
  * @file src/app/(prototype)/api-sync/components/SyncHistoryTable.tsx
- * @description 동기화 이력 테이블 — 시간순 + 페이지네이션.
+ * @description 동기화 이력 테이블 — 외부에서 필터링된 logs 받아 표시 + 페이지네이션.
  */
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
 import SeverityBadge, { type Severity } from "@/components/ui/SeverityBadge";
-import { SYNC_HISTORY, type SyncResult } from "@/data/seed/api-sync-seed";
+import { type SyncLog, type SyncResult } from "@/data/seed/api-sync-seed";
 
 const PAGE_SIZE = 15;
 
-const RESULT_TO: Record<SyncResult, { severity: Severity; label: string; variant: "outline" | "solid" }> = {
-    success: { severity: "ok",       label: "성공",   variant: "outline" },
+const RESULT_TO: Record<SyncResult, { severity: Severity; label: string; variant: "outline" | "solid" | "muted" }> = {
+    success: { severity: "ok",       label: "성공",   variant: "muted"   },
     partial: { severity: "warning",  label: "부분",   variant: "outline" },
     failed:  { severity: "critical", label: "실패",   variant: "solid"   },
 };
@@ -35,11 +35,31 @@ function formatDuration(ms: number): string {
     return `${(s / 60).toFixed(1)}분`;
 }
 
-export default function SyncHistoryTable() {
+interface SyncHistoryTableProps {
+    /** 외부에서 필터링된 로그 — 시간순 내림차순 권장 */
+    logs: SyncLog[];
+}
+
+export default function SyncHistoryTable({ logs }: SyncHistoryTableProps) {
     const [page, setPage] = useState(1);
-    const totalPages = Math.max(1, Math.ceil(SYNC_HISTORY.length / PAGE_SIZE));
+    const totalPages = Math.max(1, Math.ceil(logs.length / PAGE_SIZE));
+
+    // 필터 변경으로 logs.length 가 줄면 현재 page가 범위를 넘어갈 수 있으므로 1로 리셋
+    useEffect(() => {
+        setPage(1);
+    }, [logs]);
+
     const safePage = Math.min(page, totalPages);
-    const items = SYNC_HISTORY.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+    const items = logs.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+    if (logs.length === 0) {
+        return (
+            <div className="bg-white border border-[#e2e8f0] rounded-md shadow-[0_1px_3px_rgba(0,0,0,0.04)] py-12 text-center">
+                <p className="text-[13px] font-semibold text-[#4a5568]">조건에 해당하는 동기화 이력이 없습니다.</p>
+                <p className="text-[11px] text-[#94a3b8] mt-1">필터를 완화하거나 기간을 확장해 주세요.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-white border border-[#e2e8f0] rounded-md shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
@@ -102,11 +122,11 @@ export default function SyncHistoryTable() {
                     </tbody>
                 </table>
             </div>
-            {SYNC_HISTORY.length > PAGE_SIZE && (
+            {logs.length > PAGE_SIZE && (
                 <div className="flex items-center justify-between gap-3 px-4 py-3 border-t border-[#e2e8f0] bg-[#f8fafc]">
                     <span className="text-[12px] text-[#718096]">
                         {(safePage - 1) * PAGE_SIZE + 1}~
-                        {Math.min(safePage * PAGE_SIZE, SYNC_HISTORY.length)} / {SYNC_HISTORY.length.toLocaleString()}
+                        {Math.min(safePage * PAGE_SIZE, logs.length)} / {logs.length.toLocaleString()}
                     </span>
                     <div className="flex items-center gap-1">
                         <button

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Source Serif 4 — 인트로 Hero 타이틀 전용 (layout.tsx <head>에서 로드) */
+/* Noto Sans KR — 본문 전체 (layout.tsx <head>에서 로드) */
+
 /**
  * IOM (Inventory Operations Management) — Light Theme Design Tokens
  *
@@ -20,10 +23,6 @@
   font-display: swap;
   src: local('Pretendard');
 }
-
-/* Source Serif 4 — 인트로 Hero 타이틀 전용 */
-/* Noto Sans KR — 본문 전체 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap');
 
 :root {
   /* ─── Primary Brand ─── */

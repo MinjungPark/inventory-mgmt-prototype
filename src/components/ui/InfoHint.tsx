@@ -26,6 +26,8 @@ interface InfoHintProps {
     placement?: "top" | "right" | "bottom" | "left";
     /** 아이콘 크기 (기본 14) */
     size?: number;
+    /** 툴팁 박스 너비 (px) — 콘텐츠 분량에 따라 호출자가 조정. 디폴트 320 */
+    width?: number;
 }
 
 const PLACEMENT_CLASSES: Record<NonNullable<InfoHintProps["placement"]>, string> = {
@@ -42,6 +44,7 @@ export default function InfoHint({
     bullets,
     placement = "top",
     size = 14,
+    width = 320,
 }: InfoHintProps) {
     const [open, setOpen] = useState(false);
 
@@ -58,15 +61,16 @@ export default function InfoHint({
             <button
                 type="button"
                 aria-label="자세한 설명"
-                className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[#94a3b8] hover:text-[#0d47a1] hover:bg-[#e8eef6] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0d47a1]/30"
+                className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[#0d47a1]/60 hover:text-[#0d47a1] hover:bg-[#e8eef6] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0d47a1]/30"
             >
-                <Info size={size} strokeWidth={2} />
+                <Info size={size} strokeWidth={2.2} />
             </button>
 
             {open && (
                 <span
                     role="tooltip"
-                    className={`absolute z-50 ${PLACEMENT_CLASSES[placement]} w-[300px] bg-white border border-[#e0e0e0] rounded-md shadow-[0_4px_16px_rgba(0,0,0,0.10)] font-normal text-left whitespace-normal overflow-hidden`}
+                    style={{ width: `${width}px` }}
+                    className={`absolute z-50 ${PLACEMENT_CLASSES[placement]} bg-white border border-[#e0e0e0] rounded-md shadow-[0_4px_16px_rgba(0,0,0,0.10)] font-normal text-left whitespace-normal overflow-hidden`}
                 >
                     {isStructured ? (
                         <span className="block">

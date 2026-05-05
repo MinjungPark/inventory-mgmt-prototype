@@ -13,7 +13,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
     Info,
@@ -58,6 +58,12 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
     const pathname = usePathname();
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
+    // 라우트 변경 시 window 스크롤을 최상단으로 리셋.
+    // App Router 는 메뉴 클릭 후에도 이전 스크롤 위치를 유지할 수 있어 명시적으로 리셋.
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }, [pathname]);
+
     const mainMenus = MENUS.filter((m) => m.section === "main");
     const guideMenus = MENUS.filter((m) => m.section === "guide");
 
@@ -66,7 +72,7 @@ export default function PrototypeLayout({ children }: { children: React.ReactNod
         "Inventory Operations Mgmt.";
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] text-[#1a1a1a] overflow-x-hidden">
+        <div className="min-h-screen bg-[#f8fafc] text-[#1a1a1a]">
             {/* ─── 좌측 사이드바 ─── */}
             <motion.aside
                 initial={false}

@@ -5,6 +5,9 @@
  *  variant:
  *   - outline (기본) : 옅은 배경 + 보더 + 진한 텍스트  (베스트셀러 스타일)
  *   - solid          : 진한 배경 + 흰 텍스트          (강조용)
+ *   - muted          : 옅은 회색 배경 + 회색 테두리 + 회색 텍스트
+ *                      (severity 무시 — 모든 severity에 동일한 톤다운 적용)
+ *                      성공/정상처럼 강조가 필요 없는 기본 상태에 사용.
  *
  *  스펙 (ENERTORK DevTools 추출, font-size IOM 룰로 11px 적용):
  *    font-size:      11px
@@ -18,7 +21,7 @@
 import type { ReactNode } from "react";
 
 export type Severity = "critical" | "warning" | "ok" | "info" | "neutral";
-export type SeverityVariant = "outline" | "solid";
+export type SeverityVariant = "outline" | "solid" | "muted";
 
 interface SeverityBadgeProps {
     severity: Severity;
@@ -63,6 +66,12 @@ const OUTLINE_STYLES: Record<Severity, ToneSpec> = {
     },
 };
 
+const MUTED_STYLE: ToneSpec = {
+    bg: "#f1f5f9",     // slate-100 — 차분한 톤다운
+    border: "#e2e8f0", // slate-200
+    color: "#64748b",  // slate-500 — 가독 + 절제
+};
+
 const SOLID_STYLES: Record<Severity, ToneSpec> = {
     critical: {
         bg: "#b34530",       // 차분한 벽돌-크림슨 (캡틴 캡쳐 톤)
@@ -98,7 +107,12 @@ export default function SeverityBadge({
     icon,
     className = "",
 }: SeverityBadgeProps) {
-    const s = variant === "solid" ? SOLID_STYLES[severity] : OUTLINE_STYLES[severity];
+    const s =
+        variant === "solid"
+            ? SOLID_STYLES[severity]
+            : variant === "muted"
+                ? MUTED_STYLE
+                : OUTLINE_STYLES[severity];
     return (
         <span
             className={`inline-flex items-center gap-1 font-bold text-[11px] leading-[1.4] ${className}`}
