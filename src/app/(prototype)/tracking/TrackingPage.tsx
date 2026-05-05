@@ -106,7 +106,7 @@ export default function TrackingPage() {
             <PageHeader
                 title="입출고 트래킹"
                 subtitle="매장·창고 간 입출고 흐름과 추이 · 100건 이력"
-                rfpBadgeLabel="2-1 ③"
+                rfpSection="2-1"
                 rfpHighlightItems={["2-1-③"]}
             />
 

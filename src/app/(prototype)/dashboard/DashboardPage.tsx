@@ -59,8 +59,8 @@ export default function DashboardPage() {
             <PageHeader
                 title="통합 대시보드"
                 subtitle="플래그십 매장 운영 KPI · 재고 분포 · 입출고 추이를 한 화면에서 통합 관제"
-                rfpBadgeLabel="2-1 종합"
-                rfpHighlightSection="2-1"
+                rfpSection="2-1"
+                rfpHighlightAll
             />
 
             {/* ─── KPI 카드 5종 ─── */}

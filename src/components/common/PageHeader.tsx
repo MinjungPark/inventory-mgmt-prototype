@@ -10,29 +10,23 @@ import RfpRequirementsBadge from "./RfpRequirementsBadge";
 interface PageHeaderProps {
     title: string;
     subtitle?: string;
-    /** 배지에 표시할 라벨 (예: '2-1 ①', '2-1 종합') */
-    rfpBadgeLabel?: string;
-    /** 배지 호버 시 굵은 검정으로 강조할 항목 id 배열 (예: ['2-1-①']) */
+    /** 현재 화면이 해당하는 RFP 섹션 id (예: '2-2'). 배지 라벨에 자동으로 'X-X. 섹션명' 표시 */
+    rfpSection?: string;
+    /** 단일 항목 강조 (예: ['2-1-①']) */
     rfpHighlightItems?: string[];
-    /** 또는 섹션 통째로 강조 — 종합 화면용 (예: '2-1') */
-    rfpHighlightSection?: string;
-    /** @deprecated rfpBadgeLabel 사용 — 하위 호환 */
-    rfpMapping?: string;
+    /** 섹션 종합 화면 — 섹션 모든 항목을 강조 */
+    rfpHighlightAll?: boolean;
     actions?: ReactNode;
 }
 
 export default function PageHeader({
     title,
     subtitle,
-    rfpBadgeLabel,
+    rfpSection,
     rfpHighlightItems,
-    rfpHighlightSection,
-    rfpMapping,
+    rfpHighlightAll,
     actions,
 }: PageHeaderProps) {
-    const badgeLabel = rfpBadgeLabel ?? rfpMapping;
-    const showBadge = !!badgeLabel;
-
     return (
         <div className="border-b border-[#e2e8f0] pb-4 mb-6 flex items-start justify-between gap-4">
             <div>
@@ -40,11 +34,11 @@ export default function PageHeader({
                     <h1 className="text-[20px] font-semibold text-[#1a1a1a] tracking-tight">
                         {title}
                     </h1>
-                    {showBadge && (
+                    {rfpSection && (
                         <RfpRequirementsBadge
-                            badgeLabel={badgeLabel as string}
+                            currentSectionId={rfpSection}
                             highlightItems={rfpHighlightItems}
-                            highlightSection={rfpHighlightSection}
+                            highlightAllItemsInSection={rfpHighlightAll}
                         />
                     )}
                 </div>
