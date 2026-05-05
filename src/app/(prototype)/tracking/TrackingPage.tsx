@@ -155,11 +155,11 @@ export default function TrackingPage() {
                         입출고 이력
                     </h2>
                     <span className="text-[12px] text-[#718096]">
-                        {periodLabel} · 표시{" "}
+                        {periodLabel} · 최근{" "}
                         <span className="font-semibold text-[#1a1a1a]">
                             {historyEvents.length.toLocaleString()}
                         </span>
-                        건 (최대 {HISTORY_LIMIT}건)
+                        건
                     </span>
                 </div>
                 <TrackingHistoryTable events={historyEvents} />
