@@ -1,6 +1,7 @@
 /**
  * @file src/app/(prototype)/tracking/components/DailyTrendLine.tsx
- * @description 30일 입출고 추이 — Recharts 라인 차트 (입고 / 출고 2 라인).
+ * @description 일별 입출고 추이 — Recharts 라인 차트 (입고 / 출고 2 라인).
+ *              기간 prop에 따라 X축 도메인 자동 조정.
  */
 
 "use client";
@@ -22,9 +23,23 @@ import {
     CHART_TICK,
 } from "@/components/ui/chart-theme";
 import { buildDailyTrend } from "@/data/seed/tracking-helpers";
+import { TRACKING_EVENTS } from "@/data/seed";
+import type { TrackingEvent } from "@/types/inventory";
 
-export default function DailyTrendLine() {
-    const data = buildDailyTrend();
+interface DailyTrendLineProps {
+    /** 표시할 기간 (일 단위). undefined 면 전체. */
+    days?: number;
+}
+
+function filterByDays(events: TrackingEvent[], days?: number): TrackingEvent[] {
+    if (!days) return events;
+    const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+    return events.filter((e) => new Date(e.timestamp).getTime() >= cutoff);
+}
+
+export default function DailyTrendLine({ days }: DailyTrendLineProps) {
+    const filtered = filterByDays(TRACKING_EVENTS, days);
+    const data = buildDailyTrend(filtered);
 
     return (
         <ResponsiveContainer width="100%" height="100%">
@@ -35,7 +50,7 @@ export default function DailyTrendLine() {
                     tick={CHART_TICK}
                     axisLine={{ stroke: "#cbd5e1" }}
                     tickLine={false}
-                    interval={Math.max(1, Math.floor(data.length / 8))}
+                    interval={Math.max(0, Math.floor(data.length / 8))}
                 />
                 <YAxis
                     tick={CHART_TICK}

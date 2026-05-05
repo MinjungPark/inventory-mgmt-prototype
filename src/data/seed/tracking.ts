@@ -85,7 +85,9 @@ function generateTracking(): TrackingEvent[] {
     const now = new Date();
     let runningId = 1;
 
-    for (let dayOffset = 29; dayOffset >= 0; dayOffset--) {
+    // 60일치 — '저번 달 / 저번 주' 기간 비교가 의미 있게 보이도록 확장.
+    // 일평균 ~150건 (평일) / ~200건 (주말) → 약 9,600건.
+    for (let dayOffset = 59; dayOffset >= 0; dayOffset--) {
         const day = new Date(now);
         day.setDate(now.getDate() - dayOffset);
         day.setHours(9, 0, 0, 0);

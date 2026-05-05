@@ -10,13 +10,25 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { TrackingLocation, TrackingType } from "@/types/inventory";
+import type { TrackingEvent, TrackingLocation, TrackingType } from "@/types/inventory";
 import {
     buildFlowLinks,
     labelForLocation,
     TYPE_COLOR,
     TYPE_LABEL,
 } from "@/data/seed/tracking-helpers";
+import { TRACKING_EVENTS } from "@/data/seed";
+
+interface FlowSankeyProps {
+    /** 표시할 기간 (일 단위). undefined 면 전체. */
+    days?: number;
+}
+
+function filterByDays(events: TrackingEvent[], days?: number): TrackingEvent[] {
+    if (!days) return events;
+    const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+    return events.filter((e) => new Date(e.timestamp).getTime() >= cutoff);
+}
 
 // ─── 노드 카테고리 정의 ────────────────────────────────────────────────────
 
@@ -172,8 +184,11 @@ function ribbonPath(l: RenderLink): string {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export default function FlowSankey() {
-    const links = useMemo(() => buildFlowLinks(), []);
+export default function FlowSankey({ days }: FlowSankeyProps) {
+    const links = useMemo(
+        () => buildFlowLinks(filterByDays(TRACKING_EVENTS, days)),
+        [days],
+    );
     const [hoveredKey, setHoveredKey] = useState<string | null>(null);
     const [filterType, setFilterType] = useState<TrackingType | "ALL">("ALL");
 
@@ -335,7 +350,7 @@ export default function FlowSankey() {
                                 <text
                                     x={n.x - 8}
                                     y={cy}
-                                    fontSize={11}
+                                    fontSize={10}
                                     fontWeight={500}
                                     fill="#1a1a1a"
                                     textAnchor="end"
@@ -344,7 +359,7 @@ export default function FlowSankey() {
                                     <tspan fontWeight={600}>{n.label}</tspan>
                                     <tspan
                                         dx={6}
-                                        fontSize={10}
+                                        fontSize={9}
                                         fill="#94a3b8"
                                         style={{ fontVariantNumeric: "tabular-nums" }}
                                     >
@@ -371,7 +386,7 @@ export default function FlowSankey() {
                                 <text
                                     x={n.x + NODE_W + 8}
                                     y={cy}
-                                    fontSize={11}
+                                    fontSize={10}
                                     fontWeight={500}
                                     fill="#1a1a1a"
                                     textAnchor="start"
@@ -380,7 +395,7 @@ export default function FlowSankey() {
                                     <tspan fontWeight={600}>{n.label}</tspan>
                                     <tspan
                                         dx={6}
-                                        fontSize={10}
+                                        fontSize={9}
                                         fill="#94a3b8"
                                         style={{ fontVariantNumeric: "tabular-nums" }}
                                     >
