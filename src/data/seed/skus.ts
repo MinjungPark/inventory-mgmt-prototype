@@ -59,6 +59,7 @@ const CATEGORY_PREFIX: Record<ProductCategory, string> = {
 
 // ─── SKU Generator ──────────────────────────────────────────────────────────
 
+// 결정론적 슈도 랜덤 (`det()`)을 SSR/CSR 동일성 위해 사용. Math.random() 회피.
 function priceFor(category: ProductCategory): number {
     const ranges: Record<ProductCategory, [number, number]> = {
         의류:         [ 38_000,  280_000],
@@ -70,7 +71,7 @@ function priceFor(category: ProductCategory): number {
         라이프스타일:  [  8_000,   65_000],
     };
     const [min, max] = ranges[category];
-    return Math.round((min + Math.random() * (max - min)) / 1000) * 1000;
+    return Math.round((min + det() * (max - min)) / 1000) * 1000;
 }
 
 const SIZES_UNDERWEAR = ["75A", "80A", "80B", "85B", "85C"];
@@ -78,26 +79,26 @@ const JEWELRY_MATERIALS = ["14K", "18K", "925 Silver", "Pt950"];
 
 function variantFor(category: ProductCategory, base: string): string {
     if (category === "의류") {
-        const c = COLORS[Math.floor(Math.random() * COLORS.length)];
-        const s = SIZES_APPAREL[Math.floor(Math.random() * SIZES_APPAREL.length)];
+        const c = COLORS[Math.floor(det() * COLORS.length)];
+        const s = SIZES_APPAREL[Math.floor(det() * SIZES_APPAREL.length)];
         return `${base} - ${c} - ${s}`;
     }
     if (category === "신발") {
-        const c = COLORS[Math.floor(Math.random() * COLORS.length)];
-        const s = SIZES_SHOES[Math.floor(Math.random() * SIZES_SHOES.length)];
+        const c = COLORS[Math.floor(det() * COLORS.length)];
+        const s = SIZES_SHOES[Math.floor(det() * SIZES_SHOES.length)];
         return `${base} - ${c} - ${s}mm`;
     }
     if (category === "언더웨어") {
-        const c = COLORS[Math.floor(Math.random() * COLORS.length)];
-        const s = SIZES_UNDERWEAR[Math.floor(Math.random() * SIZES_UNDERWEAR.length)];
+        const c = COLORS[Math.floor(det() * COLORS.length)];
+        const s = SIZES_UNDERWEAR[Math.floor(det() * SIZES_UNDERWEAR.length)];
         return `${base} - ${c} - ${s}`;
     }
     if (category === "잡화") {
-        const c = COLORS[Math.floor(Math.random() * COLORS.length)];
+        const c = COLORS[Math.floor(det() * COLORS.length)];
         return `${base} - ${c}`;
     }
     if (category === "주얼리") {
-        const m = JEWELRY_MATERIALS[Math.floor(Math.random() * JEWELRY_MATERIALS.length)];
+        const m = JEWELRY_MATERIALS[Math.floor(det() * JEWELRY_MATERIALS.length)];
         return `${base} - ${m}`;
     }
     return base;
@@ -120,6 +121,9 @@ function pickWarehouse(idx: number): WarehouseId {
     if (r < 9) return "WH-3";
     return "WH-2";
 }
+
+// 모듈 로드 1회 평가 — SSR/CSR 동일성 보장
+const SKU_SEED_NOW_MS = Date.now();
 
 // 결정론적 슈도 랜덤 — 빌드마다 동일 결과 보장
 let seedCursor = 1;
@@ -162,7 +166,7 @@ function generateSkusForCategory(category: ProductCategory, count: number): Sku[
         const turnoverRate = Number(rawTurnover.toFixed(2));
 
         const lastRestockedAt = new Date(
-            Date.now() - Math.floor(det() * 30) * 24 * 60 * 60 * 1000,
+            SKU_SEED_NOW_MS - Math.floor(det() * 30) * 24 * 60 * 60 * 1000,
         ).toISOString();
 
         result.push({

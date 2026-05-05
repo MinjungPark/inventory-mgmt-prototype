@@ -5,7 +5,7 @@
  */
 
 import type { TrackingEvent, TrackingLocation, TrackingType } from "@/types/inventory";
-import { TRACKING_EVENTS } from "./tracking";
+import { TRACKING_EVENTS, SEED_TODAY } from "./tracking";
 
 // ─── KPI ────────────────────────────────────────────────────────────────────
 
@@ -18,7 +18,8 @@ function isSameDay(a: Date, b: Date): boolean {
 }
 
 export function computeTrackingKpi() {
-    const now = new Date();
+    // SSR/CSR mismatch 방지 — 시드 모듈에 박힌 SEED_TODAY 사용
+    const now = SEED_TODAY;
 
     let todayInbound = 0;
     let todayOutbound = 0;

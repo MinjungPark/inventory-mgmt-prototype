@@ -29,6 +29,9 @@ const SPECS: AlertSpec[] = [
     { severity: "warning",  status: "acknowledged", count: 7,  ratioMin: 0.40, ratioMax: 0.65 },
 ];
 
+// 모듈 로드 1회 평가 — SSR/CSR 동일성 보장
+const ALERTS_SEED_NOW_MS = Date.now();
+
 function generate(): StockAlert[] {
     const alerts: StockAlert[] = [];
     let runningId = 1;
@@ -45,7 +48,7 @@ function generate(): StockAlert[] {
 
             const section = SECTION_BY_CATEGORY[sku.category];
             const occurredAt = new Date(
-                Date.now() - (i * 4 + 1) * 60 * 60 * 1000,
+                ALERTS_SEED_NOW_MS - (i * 4 + 1) * 60 * 60 * 1000,
             ).toISOString();
 
             alerts.push({

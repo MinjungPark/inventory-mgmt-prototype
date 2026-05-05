@@ -5,6 +5,7 @@
 
 import type { AlertSeverity, AlertStatus, ProductCategory, StockAlert } from "@/types/inventory";
 import { STOCK_ALERTS } from "./alerts";
+import { SEED_TODAY } from "./tracking";
 
 // ─── KPI 집계 ──────────────────────────────────────────────────────────────
 
@@ -15,7 +16,8 @@ export function computeAlertsKpi(alerts: StockAlert[] = STOCK_ALERTS) {
         resolved: 0,
         today: 0,
     };
-    const today = new Date();
+    // SSR/CSR mismatch 방지 — 시드 모듈에 박힌 SEED_TODAY 사용
+    const today = new Date(SEED_TODAY);
     today.setHours(0, 0, 0, 0);
 
     alerts.forEach((a) => {
@@ -46,7 +48,8 @@ export interface AlertDailyPoint {
  */
 export function buildAlertTrend(): AlertDailyPoint[] {
     const map = new Map<string, AlertDailyPoint>();
-    const today = new Date();
+    // SSR/CSR mismatch 방지 — 시드 모듈에 박힌 SEED_TODAY 사용
+    const today = new Date(SEED_TODAY);
     today.setHours(0, 0, 0, 0);
 
     // 시드: 30일 backfill (결정론적)

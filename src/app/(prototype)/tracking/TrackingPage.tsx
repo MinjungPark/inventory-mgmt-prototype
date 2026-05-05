@@ -12,6 +12,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { CalendarRange, LineChart as LineIcon, Network, ListOrdered } from "lucide-react";
 
 import PageHeader from "@/components/common/PageHeader";
@@ -19,11 +20,27 @@ import ChartCard from "@/app/(prototype)/dashboard/components/ChartCard";
 import { TRACKING_EVENTS } from "@/data/seed";
 
 import TrackingKpiBar from "./components/TrackingKpiBar";
-import DailyTrendLine from "./components/DailyTrendLine";
-import FlowSankey from "./components/FlowSankey";
 import TrackingFilterBar, { type PeriodKey } from "./components/TrackingFilterBar";
 import TrackingHistoryTable from "./components/TrackingHistoryTable";
 import type { TrackingType } from "@/types/inventory";
+
+// SSR 비활성화 — 시간 의존 차트의 Hydration mismatch 회피
+const DailyTrendLine = dynamic(() => import("./components/DailyTrendLine"), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-full flex items-center justify-center text-[12px] text-[#94a3b8]">
+            차트 로딩 중...
+        </div>
+    ),
+});
+const FlowSankey = dynamic(() => import("./components/FlowSankey"), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-full flex items-center justify-center text-[12px] text-[#94a3b8]">
+            흐름 시각화 로딩 중...
+        </div>
+    ),
+});
 
 const HISTORY_LIMIT = 100;
 

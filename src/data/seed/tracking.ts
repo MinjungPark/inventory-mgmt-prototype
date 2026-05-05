@@ -80,9 +80,16 @@ function locationsFor(type: TrackingType): { from: TrackingLocation; to: Trackin
     }
 }
 
+/**
+ * 모듈 로드 시 1회만 평가되는 고정 시각.
+ * SSR과 CSR이 동일 모듈 캐시를 사용하면 같은 값이 보장되어
+ * Next.js Hydration mismatch를 방지.
+ */
+const SEED_NOW = new Date();
+
 function generateTracking(): TrackingEvent[] {
     const events: TrackingEvent[] = [];
-    const now = new Date();
+    const now = SEED_NOW;
     let runningId = 1;
 
     // 60일치 — '저번 달 / 저번 주' 기간 비교가 의미 있게 보이도록 확장.
@@ -131,12 +138,14 @@ function generateTracking(): TrackingEvent[] {
 
 export const TRACKING_EVENTS: TrackingEvent[] = generateTracking();
 
+/** 시드 기준 '오늘' — SEED_NOW와 동일 일자로 고정. SSR/CSR 일관성 보장. */
+export const SEED_TODAY = SEED_NOW;
+
 export const TRACKING_TODAY_COUNT = TRACKING_EVENTS.filter((e) => {
     const d = new Date(e.timestamp);
-    const today = new Date();
     return (
-        d.getFullYear() === today.getFullYear() &&
-        d.getMonth() === today.getMonth() &&
-        d.getDate() === today.getDate()
+        d.getFullYear() === SEED_TODAY.getFullYear() &&
+        d.getMonth() === SEED_TODAY.getMonth() &&
+        d.getDate() === SEED_TODAY.getDate()
     );
 }).length;

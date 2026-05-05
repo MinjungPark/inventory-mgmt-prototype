@@ -30,8 +30,11 @@ const SAMPLE_CHANGES: Omit<ThresholdChangeLog, "id" | "timestamp">[] = [
     { changedItem: "SKU-SH-0004",     itemLabel: "스니커즈 - 화이트 - 250mm", fromValue: 7, toValue: 10, operator: OPERATORS[2], scope: "sku" },
 ];
 
+// 모듈 로드 1회 평가 — SSR/CSR 동일성 보장
+const HISTORY_SEED_NOW_MS = Date.now();
+
 function buildHistory(): ThresholdChangeLog[] {
-    const now = Date.now();
+    const now = HISTORY_SEED_NOW_MS;
     return SAMPLE_CHANGES.map((c, i) => ({
         ...c,
         id: `THC-${String(i + 1).padStart(4, "0")}`,
